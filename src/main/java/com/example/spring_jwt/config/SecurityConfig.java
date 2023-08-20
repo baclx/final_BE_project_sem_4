@@ -67,7 +67,7 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/", "/api/auth/**").permitAll()
+                .antMatchers("/", "/api/**").permitAll()
 //                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
