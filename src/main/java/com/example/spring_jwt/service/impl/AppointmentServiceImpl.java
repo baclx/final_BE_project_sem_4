@@ -6,8 +6,8 @@ import com.example.spring_jwt.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,12 +20,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment createOrUpdateAppointment(Appointment requestBody){
         Appointment appointment = null;
         try {
-            Integer countOfAppointmentToday = appointmentRepository.countAppointmentByDoctorIdAndDate(requestBody.getDoctor().getId(), new Date());
-            if(countOfAppointmentToday < 8){
-                requestBody.setIsCheck(0);
-                requestBody.setIsDeleted(0);
-                appointment = appointmentRepository.save(requestBody);
-            }
+            requestBody.setIsCheck(0);
+            requestBody.setIsDeleted(0);
+            appointment = appointmentRepository.save(requestBody);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -33,7 +30,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsByDate(Date date) {
+    public List<Appointment> getAppointmentsByDate(LocalDateTime date) {
         List<Appointment> appointments = new ArrayList<>();
         try {
              appointments = appointmentRepository.getAppointmentByAppointmentTime(date);

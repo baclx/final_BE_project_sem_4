@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -18,7 +19,7 @@ public class Appointment {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    private String patientName;
+    //private String patientName;
 
     private String phoneNumber;
 
@@ -26,7 +27,7 @@ public class Appointment {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    private Date appointmentTime;
+    private LocalDateTime appointmentTime;
     private String purpose;
 
     private Integer isCheck;

@@ -17,4 +17,6 @@ public interface DoctorRepository extends JpaRepository<Doctor,Integer> {
 
     @Query(value = "FROM Doctor d WHERE d.specialization.id = :specId")
     List<Doctor> getDoctorBySpecializationId(@Param("specId") Integer specId);
+
+
 }

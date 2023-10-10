@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.Objects;
 
 
 @Service
@@ -35,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
         helper.setText(text);
         if(filePath != null){
             FileSystemResource file = new FileSystemResource(new File(filePath));
-            helper.addAttachment(file.getFilename(), file);
+            helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
         }
         javaMailSender.send(message);
     }

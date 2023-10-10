@@ -8,9 +8,7 @@ import com.example.spring_jwt.service.AppointmentService;
 import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -25,7 +23,7 @@ public class AppointmentController {
     PatientService patientService;
 
     @PostMapping("/create")
-    public String createAppointment ( CreateAppointment requestBody){
+    public String createAppointment (@RequestBody CreateAppointment requestBody){
         Appointment appointment = new Appointment();
         try{
             Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());
@@ -34,7 +32,7 @@ public class AppointmentController {
             appointment.setDoctor(doctor);
             appointment.setPatient(patient);
             appointment.setPhoneNumber(requestBody.getPhoneNumber());
-            appointment.setPatientName(requestBody.getPatientName());
+            //appointment.setPatientName(requestBody.getPatientName());
             appointment.setPurpose(requestBody.getPurpose());
             if(appointmentService.createOrUpdateAppointment(appointment) == null){
                 return "Get appointment failed, appointment is full slot today";

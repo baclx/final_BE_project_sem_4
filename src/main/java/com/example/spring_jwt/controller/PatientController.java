@@ -30,7 +30,7 @@ public class PatientController {
     }
 
     @GetMapping("/getBySpecId")
-    public List<Doctor> getDoctorBySpecId(@PathVariable("specId") Integer specId){
+    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId){
         try{
             return doctorService.getDoctorsBySpecId(specId);
         }catch (Exception e){

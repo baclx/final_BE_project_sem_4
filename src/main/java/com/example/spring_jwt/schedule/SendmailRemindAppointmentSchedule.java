@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class SendmailRemindAppointmentSchedule {
     public void sendMailRemindAppointment(){
         try {
             System.out.println("Chay job");
-            List<Appointment> appointments = appointmentService.getAppointmentsByDate(new Date());
+            List<Appointment> appointments = appointmentService.getAppointmentsByDate(LocalDateTime.now());
             if(appointments.size() != 0){
                 String subject = sendMailProperties.getGetAppointmentSubject();
                 String text = sendMailProperties.getGetAppointmentText();

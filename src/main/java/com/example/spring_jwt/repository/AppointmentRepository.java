@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     Integer countAppointmentByDoctorIdAndDate(@Param("doctorId") Integer doctorId, @Param("date") Date date);
 
     @Query(value = "FROM Appointment a WHERE a.appointmentTime = :date AND a.isDeleted = 0")
-    List<Appointment> getAppointmentByAppointmentTime(@Param("date") Date date);
+    List<Appointment> getAppointmentByAppointmentTime(@Param("date") LocalDateTime date);
+
+
 }
