@@ -27,6 +27,15 @@ public class PatientServiceImpl implements PatientService {
         }
         return null;
     }
+    @Override
+    public Patient savePatient(Patient patient){
+        try {
+           return patientRepository.save(patient);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public Patient getPatientByEmail(String email) {
