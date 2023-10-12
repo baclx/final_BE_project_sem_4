@@ -5,7 +5,8 @@ import com.example.spring_jwt.entities.Role;
 import com.example.spring_jwt.entities.User;
 import com.example.spring_jwt.jwt.JwtResponse;
 import com.example.spring_jwt.jwt.JwtService;
-import com.example.spring_jwt.jwt.UserPrinciple;
+import com.example.spring_jwt.model.request.LoginModel;
+import com.example.spring_jwt.model.request.RegisterModel;
 import com.example.spring_jwt.service.PatientService;
 import com.example.spring_jwt.service.RoleService;
 import com.example.spring_jwt.service.UserService;
@@ -19,8 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.desktop.UserSessionEvent;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin("*")
@@ -43,7 +44,7 @@ public class LoginRegisterController {
     private PatientService patientService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody LoginModel user) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
@@ -61,9 +62,14 @@ public class LoginRegisterController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> register(@RequestBody RegisterModel registerModel) {
+
         try {
+            User user = new User();
+            user.setPassword(registerModel.getPassword());
+            user.setFullName(registerModel.getFullName());
+            user.setUsername(registerModel.getUsername());
             if(userService.findByUsername(user.getUsername()).isPresent()){
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }
@@ -74,10 +80,10 @@ public class LoginRegisterController {
                 Role role = roleService.findByName("ROLE_USER");
                 setRoles.add(role);
                 user.setRoles(setRoles);
-                Patient patient = new Patient();
-                patient.setFullName(user.getFullName());
-                patientService.savePatient(patient);
-                user.setPatient(patient);
+//                Patient patient = new Patient();
+//                patient.setFullName(user.getFullName());
+//                patientService.savePatient(patient);
+                //user.setPatient(patient);
             }
             userService.save(user);
             return ResponseEntity.ok("register successful");
