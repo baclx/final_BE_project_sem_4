@@ -80,13 +80,13 @@ public class LoginRegisterController {
                 Role role = roleService.findByName("ROLE_USER");
                 setRoles.add(role);
                 user.setRoles(setRoles);
-//                Patient patient = new Patient();
-//                patient.setFullName(user.getFullName());
-//                patientService.savePatient(patient);
-                //user.setPatient(patient);
+                Patient patient = new Patient();
+                patient.setFullName(user.getFullName());
+                patientService.savePatient(patient);
+                user.setPatient(patient);
             }
             userService.save(user);
-            return ResponseEntity.ok("register successful");
+            return ResponseEntity.ok(user.getId());
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
