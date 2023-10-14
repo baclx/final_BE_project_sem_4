@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.awt.desktop.UserSessionEvent;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @CrossOrigin("*")
@@ -47,12 +48,12 @@ public class LoginRegisterController {
     public ResponseEntity<?> login(@RequestBody LoginModel user) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String jwt = jwtService.generateTokenLogin(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            User currentUser = userService.findByUsername(user.getUsername()).get();
+            User currentUser = userService.findByEmail(user.getEmail());
 
             return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
         }
@@ -69,12 +70,23 @@ public class LoginRegisterController {
             User user = new User();
             user.setPassword(registerModel.getPassword());
             user.setFullName(registerModel.getFullName());
-            user.setUsername(registerModel.getUsername());
-            if(userService.findByUsername(user.getUsername()).isPresent()){
+            user.setEmail(registerModel.getEmail());
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println(user.getEmail());
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println("===========");
+            System.out.println("===========");
+            if(Objects.nonNull(userService.findByEmail(user.getEmail()))){
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }
             String password = user.getPassword();
             Set<Role> userRoles = user.getRoles();
+            System.out.println(userRoles);
             if (userRoles == null) {
                 Set<Role> setRoles = new HashSet<Role>();
                 Role role = roleService.findByName("ROLE_USER");
@@ -82,6 +94,7 @@ public class LoginRegisterController {
                 user.setRoles(setRoles);
                 Patient patient = new Patient();
                 patient.setFullName(user.getFullName());
+                patient.setEmail(user.getEmail());
                 patientService.savePatient(patient);
                 user.setPatient(patient);
             }

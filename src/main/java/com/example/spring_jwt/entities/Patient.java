@@ -20,7 +20,7 @@ public class Patient {
 
     private String email;
 
-    private String geder;
+    private String gender;
 
     private String image;
 
@@ -59,7 +59,7 @@ public class Patient {
                 ", fullName='" + fullName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", geder='" + geder + '\'' +
+                ", geder='" + gender + '\'' +
                 ", image='" + image + '\'' +
                 ", height='" + height + '\'' +
                 ", weight='" + weight + '\'' +

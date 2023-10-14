@@ -32,7 +32,7 @@ public class UserPrinciple implements UserDetails {
         return new UserPrinciple(
                 user.getId(),
                 user.getPassword(),
-                user.getUsername(),
+                user.getEmail(),
                 authorities
         );
     }

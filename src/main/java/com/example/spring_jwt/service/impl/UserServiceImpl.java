@@ -42,17 +42,22 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        if(userRepository.findByEmail(email).size() != 1){
+            return null;
+        }
+        return userRepository.findByEmail(email).get(0);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userOptional= userRepository.findByUsername(username);
-        if (!userOptional.isPresent()){
-            throw  new UsernameNotFoundException(username);
-        }
-        return UserPrinciple.build(userOptional.get());
+        User userOptional = userRepository.findByEmail(username).get(0);
+//        if (!userOptional.isPresent()){
+//            throw  new UsernameNotFoundException(username);
+//        }
+        return UserPrinciple.build(userOptional);
     }
 }
