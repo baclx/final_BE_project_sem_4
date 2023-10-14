@@ -71,16 +71,6 @@ public class LoginRegisterController {
             user.setPassword(registerModel.getPassword());
             user.setFullName(registerModel.getFullName());
             user.setEmail(registerModel.getEmail());
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println(user.getEmail());
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println("===========");
-            System.out.println("===========");
             if(Objects.nonNull(userService.findByEmail(user.getEmail()))){
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }
