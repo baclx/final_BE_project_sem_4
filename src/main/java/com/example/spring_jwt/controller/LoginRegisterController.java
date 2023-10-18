@@ -20,7 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.desktop.UserSessionEvent;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -56,8 +55,7 @@ public class LoginRegisterController {
             User currentUser = userService.findByEmail(user.getEmail());
 
             return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sai email hoặc mật khẩu!");
@@ -71,7 +69,7 @@ public class LoginRegisterController {
             user.setPassword(registerModel.getPassword());
             user.setFullName(registerModel.getFullName());
             user.setEmail(registerModel.getEmail());
-            if(Objects.nonNull(userService.findByEmail(user.getEmail()))){
+            if (Objects.nonNull(userService.findByEmail(user.getEmail()))) {
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }
             String password = user.getPassword();
@@ -90,8 +88,7 @@ public class LoginRegisterController {
             }
             userService.save(user);
             return ResponseEntity.ok(user.getId());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

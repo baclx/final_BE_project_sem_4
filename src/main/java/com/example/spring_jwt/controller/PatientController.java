@@ -21,19 +21,20 @@ public class PatientController {
     DoctorService doctorService;
 
     @GetMapping("/email")
-    public Patient getPatientByEmail(@RequestParam(name = "email") String email){
+    public Patient getPatientByEmail(@RequestParam(name = "email") String email) {
         return patientService.getPatientByEmail(email);
     }
+
     @GetMapping("/id")
-    public Patient getPatientById(@RequestParam(name = "id") Integer patientId){
+    public Patient getPatientById(@RequestParam(name = "id") Integer patientId) {
         return patientService.getPatientById(patientId);
     }
 
     @GetMapping("/getBySpecId")
-    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId){
-        try{
+    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId) {
+        try {
             return doctorService.getDoctorsBySpecId(specId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -10,6 +10,9 @@ import com.example.spring_jwt.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/appointment")
 public class AppointmentController {
@@ -23,9 +26,9 @@ public class AppointmentController {
     PatientService patientService;
 
     @PostMapping("/create")
-    public String createAppointment (@RequestBody CreateAppointment requestBody){
+    public String createAppointment(@RequestBody CreateAppointment requestBody) {
         Appointment appointment = new Appointment();
-        try{
+        try {
             Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());
             Patient patient = patientService.getPatientById(requestBody.getPatientId());
             appointment.setAppointmentTime(requestBody.getAppointmentTime());
@@ -34,14 +37,26 @@ public class AppointmentController {
             appointment.setPhoneNumber(requestBody.getPhoneNumber());
             //appointment.setPatientName(requestBody.getPatientName());
             appointment.setPurpose(requestBody.getPurpose());
-            if(appointmentService.createOrUpdateAppointment(appointment) == null){
+            if (appointmentService.createOrUpdateAppointment(appointment) == null) {
                 return "Get appointment failed, appointment is full slot today";
             }
             return "Get appointment success!";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "Get appointment failed";
+    }
+
+    @GetMapping("/getByUserId/{userId}")
+    public List<Appointment> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
+        List<Appointment> appointments = new ArrayList<>();
+        try {
+            appointments = appointmentService.getAppointmentsByUserId(userId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appointments;
     }
 
 }

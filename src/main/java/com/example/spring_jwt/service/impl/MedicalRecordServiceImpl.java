@@ -1,7 +1,6 @@
 package com.example.spring_jwt.service.impl;
 
 
-
 import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.entities.MedicalRecord;
 import com.example.spring_jwt.entities.Patient;
@@ -38,11 +37,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         MedicalRecord medicalRecord = new MedicalRecord();
         Patient patient = patientService.getPatientById(requestBody.getPatientId());
         try {
-            if(medicalRecordId != null){
+            if (medicalRecordId != null) {
                 medicalRecord = medicalRecordRepository.findById(medicalRecordId).get();
 
-                medicalRecord.setDiseaseProgression(medicalRecord.getDiseaseProgression()+","+requestBody.getDiseaseProgression());
-            }else {
+                medicalRecord.setDiseaseProgression(medicalRecord.getDiseaseProgression() + "," + requestBody.getDiseaseProgression());
+            } else {
                 medicalRecord.setDiseaseProgression(requestBody.getDiseaseProgression());
             }
             Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());

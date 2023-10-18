@@ -12,9 +12,9 @@ public class AdminController {
     @Autowired
     DoctorService doctorService;
 
-//    @Secured("ROLE_ADMIN")
+    //    @Secured("ROLE_ADMIN")
     @GetMapping("/hello")
-    public String hello(){
+    public String hello() {
         return "hello admin";
     }
 }

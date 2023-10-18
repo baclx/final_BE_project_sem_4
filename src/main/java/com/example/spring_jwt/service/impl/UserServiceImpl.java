@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -43,10 +44,9 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public User findByEmail(String email) {
-        if(userRepository.findByEmail(email).size() != 1){
+        if (userRepository.findByEmail(email).size() != 1) {
             return null;
         }
         return userRepository.findByEmail(email).get(0);

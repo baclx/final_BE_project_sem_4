@@ -6,5 +6,5 @@ import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 
 public interface PdfService {
-     String generatePdf(CreateMedicalRecord createMedicalRecord, String imageString) throws IOException, DocumentException;
+    String generatePdf(CreateMedicalRecord createMedicalRecord, String imageString) throws IOException, DocumentException;
 }

@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageService {
-    public String uploadImage( MultipartFile[] files) {
+    public String uploadImage(MultipartFile[] files) {
         try {
             for (MultipartFile file : files) {
                 Path imagePath = Paths.get("src/main/resources/images/" + file.getOriginalFilename());

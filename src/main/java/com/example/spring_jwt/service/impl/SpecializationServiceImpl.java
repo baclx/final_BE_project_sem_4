@@ -15,11 +15,11 @@ public class SpecializationServiceImpl implements SpecializationService {
     SpecializationRepository specializationRepository;
 
     @Override
-    public List<Specialization> getAllSpecialization(){
+    public List<Specialization> getAllSpecialization() {
         List<Specialization> specializations = new ArrayList<>();
         try {
             specializations = specializationRepository.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return specializations;

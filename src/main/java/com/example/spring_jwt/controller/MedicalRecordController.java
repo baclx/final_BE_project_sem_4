@@ -50,14 +50,14 @@ public class MedicalRecordController {
     public ResponseEntity<MedicalRecord> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody, @RequestParam("files") MultipartFile[] files) {
         MedicalRecord medicalRecord = new MedicalRecord();
         try {
-             medicalRecord = medicalRecordService.createOrUpdateMedicalRecord(null, requestBody);
+            medicalRecord = medicalRecordService.createOrUpdateMedicalRecord(null, requestBody);
             fileStorageService.uploadImage(files);
             List<String> imageList = new ArrayList<>();
             for (MultipartFile file : files) {
-                String imagePath ="images/"+ file.getOriginalFilename();
+                String imagePath = "images/" + file.getOriginalFilename();
                 imageList.add(imagePath);
             }
-            String imagesString =String.join(",", imageList);
+            String imagesString = String.join(",", imageList);
             genFilePDF(requestBody, imagesString);
 
             return ResponseEntity.ok(medicalRecord);
@@ -80,7 +80,7 @@ public class MedicalRecordController {
         String outputFile = pdfService.generatePdf(createMedicalRecord, imagesString);
         String filePath = outputFile;
 
-        emailService.sendEmail(to,subject,text,filePath);
+        emailService.sendEmail(to, subject, text, filePath);
     }
 
 }

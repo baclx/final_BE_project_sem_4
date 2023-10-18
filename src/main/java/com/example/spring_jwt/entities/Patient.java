@@ -44,11 +44,11 @@ public class Patient {
 
     private String fullName;
 
-    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<MedicalRecord> medicalRecords;
 
-    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Appointment> appointments;
 

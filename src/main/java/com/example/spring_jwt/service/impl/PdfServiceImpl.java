@@ -18,7 +18,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +31,7 @@ import java.util.Map;
 public class PdfServiceImpl implements PdfService {
     @Autowired
     PatientService patientService;
+
     public String generatePdf(CreateMedicalRecord createMedicalRecord, String imageString) throws IOException, DocumentException {
         Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
         String outputFile = "src/main/resources/medical_record.pdf";
@@ -61,16 +61,16 @@ public class PdfServiceImpl implements PdfService {
 
         document.add(Chunk.NEWLINE);
 
-        PdfPTable nameTable = createTable(normalFont, "1. Name:",patient.getFullName(),boldFont);
+        PdfPTable nameTable = createTable(normalFont, "1. Name:", patient.getFullName(), boldFont);
         document.add(nameTable);
 
-        PdfPTable addressTable = createTable(normalFont, "2. Address:",patient.getAddress(),boldFont);
+        PdfPTable addressTable = createTable(normalFont, "2. Address:", patient.getAddress(), boldFont);
         document.add(addressTable);
 
-        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:",patient.getPhoneNumber(),boldFont);
+        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber(), boldFont);
         document.add(phoneTable);
 
-        PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:",patient.getDateOfBirth().toString(),boldFont);
+        PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:", patient.getDateOfBirth().toString(), boldFont);
         document.add(birthDayTable);
 
         document.add(new Paragraph("5. Sex: " + getCheckmarkSymbol() + " Male   " + getCheckmarkSymbol() + " Female", boldFont));
@@ -82,7 +82,7 @@ public class PdfServiceImpl implements PdfService {
 
         String testResultJson = createMedicalRecord.getTestResult();
         document.add(new Paragraph("6. Test results:", boldFont));
-        PdfPTable testResultsTable = createTestResultsTable(normalFont, testResultJson,boldFont);
+        PdfPTable testResultsTable = createTestResultsTable(normalFont, testResultJson, boldFont);
         document.add(testResultsTable);
 
         String medicalDetailsString = createMedicalRecord.getMedicationDetails();
@@ -98,9 +98,9 @@ public class PdfServiceImpl implements PdfService {
 
         document.add(new Paragraph("8. Disease progression:", boldFont));
         PdfPTable diseaseProgressionTable = createCommonListTable(normalFont, createMedicalRecord.getDiseaseProgression());
-        document.add(diseaseProgressionTable );
+        document.add(diseaseProgressionTable);
 
-        PdfPTable doctorNameTable = createTable(normalFont, "9. Name of Doctor:",createMedicalRecord.getDoctorName(),boldFont);
+        PdfPTable doctorNameTable = createTable(normalFont, "9. Name of Doctor:", createMedicalRecord.getDoctorName(), boldFont);
         document.add(doctorNameTable);
 
         document.add(new Paragraph("10. Notes from doctor:", boldFont));
@@ -127,6 +127,7 @@ public class PdfServiceImpl implements PdfService {
         table.addCell(labelCell);
         table.addCell(valueCell);
     }
+
     private static void addCell(PdfPTable table, String value, Font font) {
         PdfPCell valueCell = new PdfPCell(new Phrase(value, font));
         valueCell.setPadding(5);
@@ -134,7 +135,8 @@ public class PdfServiceImpl implements PdfService {
 
         table.addCell(valueCell);
     }
-    private static PdfPTable createTable(Font font, String label, String value, Font labelFont)throws JsonProcessingException{
+
+    private static PdfPTable createTable(Font font, String label, String value, Font labelFont) throws JsonProcessingException {
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
@@ -146,22 +148,22 @@ public class PdfServiceImpl implements PdfService {
 
     private static PdfPTable imageTable(String listImageUrls) throws IOException, BadElementException {
         String images = listImageUrls;
-                //.replace("[", "").replace("]", "").replace("\"","");
+        //.replace("[", "").replace("]", "").replace("\"","");
         String[] imageArray = images.split(",");
 
-       ArrayList<String> imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
+        ArrayList<String> imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
 
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
         table.setWidthPercentage(100);
         table.setSpacingBefore(10f);
 
-        for(String imageUrl : imageUrlList){
+        for (String imageUrl : imageUrlList) {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             URL linkImage = classLoader.getResource(imageUrl);
             System.out.println(imageUrl);
             if (imageUrl != null) {
-                if(linkImage != null){
+                if (linkImage != null) {
                     //Image image = Image.getInstance(new URL(imageUrl));
                     Image image = Image.getInstance(linkImage);
                     PdfPCell cell = new PdfPCell(image, true);
@@ -172,9 +174,10 @@ public class PdfServiceImpl implements PdfService {
             }
 
         }
-       return table;
+        return table;
     }
-    private static PdfPTable createCommonListTable(Font font, String jsonString) throws JsonProcessingException{
+
+    private static PdfPTable createCommonListTable(Font font, String jsonString) throws JsonProcessingException {
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
@@ -192,6 +195,7 @@ public class PdfServiceImpl implements PdfService {
         }
         return table;
     }
+
     private static PdfPTable createMedicalDetailsTable(Font font, String mediationDetailsString) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -248,7 +252,7 @@ public class PdfServiceImpl implements PdfService {
                 for (String value : values) {
                     Paragraph testResultsParagraph = new Paragraph(value, font);
                     testResultsParagraph.setIndentationLeft(20f);
-                    addCell(table,value,font);
+                    addCell(table, value, font);
                 }
             }
             addSeparator(table);
@@ -257,7 +261,6 @@ public class PdfServiceImpl implements PdfService {
 
         return table;
     }
-
 
 
 //    public static void main(String[] args) throws DocumentException, IOException {

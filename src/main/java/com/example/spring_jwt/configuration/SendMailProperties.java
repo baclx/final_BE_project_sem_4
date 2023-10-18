@@ -2,7 +2,6 @@ package com.example.spring_jwt.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.stereotype.Component;
 
 @ConfigurationProperties("app.mail.send"

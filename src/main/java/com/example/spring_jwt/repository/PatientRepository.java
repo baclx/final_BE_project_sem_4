@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient,Integer> {
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
     List<Patient> getByEmail(String email);
+
 }

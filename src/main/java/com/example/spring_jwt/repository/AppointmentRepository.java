@@ -1,6 +1,8 @@
 package com.example.spring_jwt.repository;
 
 import com.example.spring_jwt.entities.Appointment;
+import com.example.spring_jwt.entities.Doctor;
+import com.example.spring_jwt.entities.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     @Query(value = "FROM Appointment a WHERE a.appointmentTime = :date AND a.isDeleted = 0")
     List<Appointment> getAppointmentByAppointmentTime(@Param("date") LocalDateTime date);
+
+    @Query(value = "SELECT * FROM Appointment a WHERE CAST(appointment_time AS DATE) = DATE(NOW())", nativeQuery = true)
+    List<Appointment> findAppointmentsForToday();
+
+
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.user.id = :userId OR a.patient.user.id = :userId")
+    List<Appointment> getAppointmentByUserId(@Param("userId") Integer userId);
+
+    List<Appointment> getAppointmentByDoctor(Doctor doctor);
+
+    List<Appointment> getAppointmentByPatient(Patient patient);
 
 
 }
