@@ -27,12 +27,5 @@ public class SpecializationController {
         return null;
     }
 
-    @PostMapping("/add")
-    public void addSpecialization(@RequestBody Specialization specialization){
-        try {
-            specializationService.
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+
 }

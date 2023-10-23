@@ -19,6 +19,7 @@ public class Doctor {
 
     private String fullName;
 
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference

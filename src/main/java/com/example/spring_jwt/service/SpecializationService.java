@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SpecializationService {
     List<Specialization> getAllSpecialization();
+
 }
