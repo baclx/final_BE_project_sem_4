@@ -1,6 +1,7 @@
 package com.example.spring_jwt.service.impl;
 
 import com.example.spring_jwt.entities.Specialization;
+import com.example.spring_jwt.model.request.CreateSpec;
 import com.example.spring_jwt.repository.SpecializationRepository;
 import com.example.spring_jwt.service.SpecializationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,20 @@ public class SpecializationServiceImpl implements SpecializationService {
             e.printStackTrace();
         }
         return specializations;
+    }
+
+    @Override
+    public void saveSpecialization(Specialization specialization) {
+        specializationRepository.save(specialization);
+    }
+
+    @Override
+    public Specialization getSpecializationById(Integer id) {
+        return specializationRepository.findById(id).get();
+    }
+
+    @Override
+    public void deleteSpecialization(Integer id) {
+        specializationRepository.deleteById(id);
     }
 }

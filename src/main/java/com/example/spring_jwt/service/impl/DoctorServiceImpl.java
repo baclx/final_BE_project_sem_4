@@ -81,4 +81,14 @@ public class DoctorServiceImpl implements DoctorService {
         }
         return freeDoctorsByCategory;
     }
+
+    @Override
+    public void saveDoctor(Doctor doctor) {
+        doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void deleteDoctor(Integer id) {
+        doctorRepository.deleteById(id);
+    }
 }

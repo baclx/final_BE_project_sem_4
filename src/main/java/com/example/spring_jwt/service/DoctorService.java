@@ -14,4 +14,9 @@ public interface DoctorService {
     List<Doctor> getDoctorsBySpecId(Integer specId);
 
     List<Doctor> getFreeDoctorByCategory(GetFreeDoctorByCategory requestBody);
+
+    void saveDoctor(Doctor doctor);
+
+    void deleteDoctor(Integer id);
+
 }
