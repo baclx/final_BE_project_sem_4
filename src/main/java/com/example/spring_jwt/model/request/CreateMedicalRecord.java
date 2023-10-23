@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class CreateMedicalRecord {
-    private Integer patientId;
+    private String patientEmail;
     private Integer doctorId;
     private String doctorName;
     private String testResult;

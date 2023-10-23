@@ -4,13 +4,12 @@ import com.example.spring_jwt.entities.Specialization;
 import com.example.spring_jwt.service.SpecializationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/specialization")
 public class SpecializationController {
     @Autowired
@@ -26,5 +25,14 @@ public class SpecializationController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @PostMapping("/add")
+    public void addSpecialization(@RequestBody Specialization specialization){
+        try {
+            specializationService.
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

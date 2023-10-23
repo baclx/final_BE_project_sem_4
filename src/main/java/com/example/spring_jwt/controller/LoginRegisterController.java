@@ -69,6 +69,9 @@ public class LoginRegisterController {
             user.setPassword(registerModel.getPassword());
             user.setFullName(registerModel.getFullName());
             user.setEmail(registerModel.getEmail());
+            Patient patient = new Patient();
+            patient.setFullName(user.getFullName());
+            patient.setEmail(user.getEmail());
             if (Objects.nonNull(userService.findByEmail(user.getEmail()))) {
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }
@@ -80,13 +83,11 @@ public class LoginRegisterController {
                 Role role = roleService.findByName("ROLE_USER");
                 setRoles.add(role);
                 user.setRoles(setRoles);
-                Patient patient = new Patient();
-                patient.setFullName(user.getFullName());
-                patient.setEmail(user.getEmail());
-                patientService.savePatient(patient);
-                user.setPatient(patient);
             }
             userService.save(user);
+            patient.setUser(user);
+            patientService.savePatient(patient);
+
             return ResponseEntity.ok(user.getId());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

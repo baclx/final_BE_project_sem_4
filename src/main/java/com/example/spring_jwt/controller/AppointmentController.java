@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/appointment")
 public class AppointmentController {
     @Autowired
@@ -30,7 +31,7 @@ public class AppointmentController {
         Appointment appointment = new Appointment();
         try {
             Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());
-            Patient patient = patientService.getPatientById(requestBody.getPatientId());
+            Patient patient = patientService.getPatientByUserId(requestBody.getPatientId());
             appointment.setAppointmentTime(requestBody.getAppointmentTime());
             appointment.setDoctor(doctor);
             appointment.setPatient(patient);

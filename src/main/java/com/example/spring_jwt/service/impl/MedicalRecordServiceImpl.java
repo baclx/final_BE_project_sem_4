@@ -35,7 +35,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     @Override
     public MedicalRecord createOrUpdateMedicalRecord(Integer medicalRecordId, CreateMedicalRecord requestBody) {
         MedicalRecord medicalRecord = new MedicalRecord();
-        Patient patient = patientService.getPatientById(requestBody.getPatientId());
+        Patient patient = patientService.getPatientByEmail(requestBody.getPatientEmail());
         try {
             if (medicalRecordId != null) {
                 medicalRecord = medicalRecordRepository.findById(medicalRecordId).get();

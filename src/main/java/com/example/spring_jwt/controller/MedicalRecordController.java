@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/medicalRecord")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin("*")
 public class MedicalRecordController {
     @Autowired
     MedicalRecordService medicalRecordService;
@@ -69,11 +69,10 @@ public class MedicalRecordController {
     }
 
     private void genFilePDF(CreateMedicalRecord createMedicalRecord, String imagesString) throws DocumentException, IOException, MessagingException {
-        Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
         Doctor doctor = doctorService.getDocTorById(createMedicalRecord.getDoctorId());
         createMedicalRecord.setDoctorName(doctor.getFullName());
 
-        String to = patient.getEmail();
+        String to = createMedicalRecord.getPatientEmail();
         String subject = sendMailProperties.getTestResultSubject();
         String text = sendMailProperties.getTestResultText();
 

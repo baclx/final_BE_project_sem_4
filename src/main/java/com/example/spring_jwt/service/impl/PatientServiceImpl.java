@@ -1,6 +1,7 @@
 package com.example.spring_jwt.service.impl;
 
 
+import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.entities.Patient;
 import com.example.spring_jwt.repository.PatientRepository;
 import com.example.spring_jwt.service.PatientService;
@@ -47,6 +48,17 @@ public class PatientServiceImpl implements PatientService {
                 return null;
             }
         }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Patient getPatientByUserId(Integer userId) {
+        try {
+            Patient patient = patientRepository.getPatientByUserId(userId);
+            return patient;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

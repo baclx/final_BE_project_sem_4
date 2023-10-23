@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/doctor")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin("*")
 public class DoctorController {
     @Autowired
     DoctorService doctorService;
@@ -42,5 +42,14 @@ public class DoctorController {
         return response;
     }
 
+    @GetMapping("/getBySpecId")
+    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId) {
+        try {
+            return doctorService.getDoctorsBySpecId(specId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

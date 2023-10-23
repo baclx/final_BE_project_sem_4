@@ -10,5 +10,7 @@ public interface PatientService {
 
     Patient getPatientByEmail(String email);
 
+    Patient getPatientByUserId(Integer userId);
+
 
 }

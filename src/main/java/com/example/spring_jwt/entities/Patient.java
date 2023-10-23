@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Patient {
 
     private String phoneNumber;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -51,6 +52,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Appointment> appointments;
+
 
     @Override
     public String toString() {

@@ -1,16 +1,17 @@
 package com.example.spring_jwt.controller;
 
-import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.entities.Patient;
+import com.example.spring_jwt.model.request.UpdatePatientReq;
 import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @RestController
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin("*")
 @RequestMapping("api/patients")
 
 public class PatientController {
@@ -30,13 +31,38 @@ public class PatientController {
         return patientService.getPatientById(patientId);
     }
 
-    @GetMapping("/getBySpecId")
-    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId) {
+    @PostMapping("/updatePatient/{userId}")
+    public Patient updatePatientByUserId(@PathVariable(name = "userId") Integer userId, @RequestBody UpdatePatientReq patientUpdate){
         try {
-            return doctorService.getDoctorsBySpecId(specId);
-        } catch (Exception e) {
+            Patient patient = patientService.getPatientByUserId(userId);
+            patient.setEmail(patientUpdate.getEmail());
+            patient.setAddress(patientUpdate.getAddress());
+            patient.setFullName(patientUpdate.getFullName());
+            patient.setDateOfBirth(patientUpdate.getDateOfBirth());
+            patient.setGender(patientUpdate.getGender());
+            patient.setHeight(patientUpdate.getHeight());
+            patient.setAge(patientUpdate.getAge());
+            patient.setImage(patientUpdate.getImage());
+            patient.setPhoneNumber(patientUpdate.getPhoneNumber());
+            patient.setWeight(patientUpdate.getWeight());
+            patientService.savePatient(patient);
+            return patient;
+        }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
+
+    @GetMapping("/getPatient/{userId}")
+    public Patient getPatientByUserId(@PathVariable(name = "userId") Integer userId){
+        Patient patient = new Patient();
+        try {
+            patient = patientService.getPatientByUserId(userId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return patient;
+    }
+
+
 }
