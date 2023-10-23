@@ -43,13 +43,22 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
     @Override
     public User findByEmail(String email) {
         if (userRepository.findByEmail(email).size() != 1) {
             return null;
         }
         return userRepository.findByEmail(email).get(0);
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public void deleteUser(Integer id) {
+        userRepository.deleteById(id);
     }
 
     @Override
