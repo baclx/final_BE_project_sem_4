@@ -33,7 +33,8 @@ public class PdfServiceImpl implements PdfService {
     PatientService patientService;
 
     public String generatePdf(CreateMedicalRecord createMedicalRecord, String imageString) throws IOException, DocumentException {
-        Patient patient = patientService.getPatientByEmail(createMedicalRecord.getPatientEmail());
+        //Patient patient = patientService.getPatientByEmail(createMedicalRecord.getPatientEmail());
+        Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
         String outputFile = "src/main/resources/medical_record.pdf";
 
         Document document = new Document();
