@@ -4,6 +4,7 @@ import com.example.spring_jwt.entities.Appointment;
 import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.entities.Patient;
 import com.example.spring_jwt.model.request.CreateAppointment;
+import com.example.spring_jwt.model.response.AppointmentDetail;
 import com.example.spring_jwt.service.AppointmentService;
 import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.PatientService;
@@ -49,15 +50,23 @@ public class AppointmentController {
     }
 
     @GetMapping("/getByUserId/{userId}")
-    public List<Appointment> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
+    public List<AppointmentDetail> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
         List<Appointment> appointments = new ArrayList<>();
+        List<AppointmentDetail> appointmentDetails = new ArrayList<>();
         try {
             appointments = appointmentService.getAppointmentsByUserId(userId);
+            for(Appointment appointment : appointments){
+                AppointmentDetail appointmentDetail = new AppointmentDetail();
+                appointmentDetail.setAppointmentTime(appointment.getAppointmentTime());
+                appointmentDetail.setPatientName(appointment.getPatient().getFullName());
+                appointmentDetail.setDoctorName(appointment.getDoctor().getFullName());
+                appointmentDetails.add(appointmentDetail);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return appointments;
+        return appointmentDetails;
     }
 
 }

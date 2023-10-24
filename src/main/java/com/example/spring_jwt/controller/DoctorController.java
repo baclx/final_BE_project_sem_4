@@ -74,8 +74,8 @@ public class DoctorController {
         return response;
     }
 
-    @GetMapping("/getBySpecId")
-    public List<Doctor> getDoctorBySpecId(@RequestParam("specId") Integer specId) {
+    @GetMapping("/getBySpecId/{specId}")
+    public List<Doctor> getDoctorBySpecId(@PathVariable("specId") Integer specId) {
         try {
             return doctorService.getDoctorsBySpecId(specId);
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.entities.MedicalRecord;
 import com.example.spring_jwt.entities.Patient;
 import com.example.spring_jwt.model.request.CreateMedicalRecord;
+import com.example.spring_jwt.model.response.MedicalRecordResponse;
 import com.example.spring_jwt.service.*;
 import com.example.spring_jwt.util.FileStorageService;
 import com.itextpdf.text.DocumentException;
@@ -92,13 +93,21 @@ public class MedicalRecordController {
         emailService.sendEmail(to, subject, text, filePath);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("getAllByUserId/{userId}")
     ResponseEntity<?> getAllByUserId(@PathVariable(name = "userId") Integer userId){
         List<MedicalRecord> medicalRecords = null;
         try {
+            List<MedicalRecordResponse> medicalRecordResponses = new ArrayList<>();
             medicalRecords = medicalRecordService.getAllByUserId(userId);
             if(!CollectionUtils.isEmpty(medicalRecords)){
-                return ResponseEntity.ok(medicalRecords);
+                for (MedicalRecord medicalRecord : medicalRecords){
+                    MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse();
+                    medicalRecordResponse.setDateTime(medicalRecord.getCreatedAt());
+                    medicalRecordResponse.setDoctorName(medicalRecord.getDoctor().getFullName());
+                    medicalRecordResponse.setPatientName(medicalRecord.getPatient().getFullName());
+                    medicalRecordResponses.add(medicalRecordResponse);
+                }
+                return ResponseEntity.ok(medicalRecordResponses);
             }
         }catch (Exception e){
             e.printStackTrace();
