@@ -75,7 +75,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         try {
             CreateMedicalRecord createMedicalRecord = new CreateMedicalRecord();
             createMedicalRecord.setDoctorId(medicalRecord.getDoctor().getId());
-            createMedicalRecord.setDoctorName(medicalRecord.getDoctor().getFullName());
+            createMedicalRecord.setDoctorName(medicalRecord.getDoctor().getUser().getFullName());
             createMedicalRecord.setTestResult(medicalRecord.getTestResult());
             //createMedicalRecord.setPatientEmail(medicalRecord.getPatient().getEmail());
             createMedicalRecord.setPatientId(medicalRecord.getPatient().getId());
@@ -107,9 +107,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     public List<MedicalRecord> getAllByUserId(Integer userId) {
         List<MedicalRecord> medicalRecords = null;
         try {
-            Patient patient = patientService.getPatientByUserId(userId);
-            medicalRecords = medicalRecordRepository.getAllByPatient(patient);
-            //medicalRecords = medicalRecordRepository.getByUserId(userId);
+            //Patient patient = patientService.getPatientByUserId(userId);
+           // medicalRecords = medicalRecordRepository.getAllByPatient(patient);
+            medicalRecords = medicalRecordRepository.getByUserId(userId);
 
         } catch (Exception e) {
             e.printStackTrace();

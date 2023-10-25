@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
-    List<Patient> getByEmail(String email);
 
     @Query(value = "FROM Patient p WHERE p.user.id = :userId")
     Patient getPatientByUserId(@Param("userId") Integer userId);

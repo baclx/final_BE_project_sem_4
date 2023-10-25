@@ -62,7 +62,7 @@ public class PdfServiceImpl implements PdfService {
 
         document.add(Chunk.NEWLINE);
 
-        PdfPTable nameTable = createTable(normalFont, "1. Name:", patient.getFullName(), boldFont);
+        PdfPTable nameTable = createTable(normalFont, "1. Name:", patient.getUser().getFullName(), boldFont);
         document.add(nameTable);
 
         PdfPTable addressTable = createTable(normalFont, "2. Address:", patient.getAddress(), boldFont);

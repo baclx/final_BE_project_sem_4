@@ -58,8 +58,8 @@ public class AppointmentController {
             for(Appointment appointment : appointments){
                 AppointmentDetail appointmentDetail = new AppointmentDetail();
                 appointmentDetail.setAppointmentTime(appointment.getAppointmentTime());
-                appointmentDetail.setPatientName(appointment.getPatient().getFullName());
-                appointmentDetail.setDoctorName(appointment.getDoctor().getFullName());
+                appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+                appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
                 appointmentDetails.add(appointmentDetail);
             }
 

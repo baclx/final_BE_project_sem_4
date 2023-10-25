@@ -70,8 +70,6 @@ public class LoginRegisterController {
             user.setFullName(registerModel.getFullName());
             user.setEmail(registerModel.getEmail());
             Patient patient = new Patient();
-            patient.setFullName(user.getFullName());
-            patient.setEmail(user.getEmail());
             if (Objects.nonNull(userService.findByEmail(user.getEmail()))) {
                 throw new Exception("Đã tồn tại người dùng, vui lòng chọn tên đăng nhập khác");
             }

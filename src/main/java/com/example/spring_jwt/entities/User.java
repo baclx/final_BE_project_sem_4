@@ -19,6 +19,12 @@ public class User {
 
     private String fullName;
 
+    private String image;
+
+    private String gender;
+
+
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},

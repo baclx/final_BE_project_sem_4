@@ -2,10 +2,13 @@ package com.example.spring_jwt.controller;
 
 
 import com.example.spring_jwt.entities.Doctor;
+import com.example.spring_jwt.entities.User;
 import com.example.spring_jwt.model.GetFreeDoctorByCategory;
 import com.example.spring_jwt.model.request.UpdateDoctor;
+import com.example.spring_jwt.model.response.DoctorDetail;
 import com.example.spring_jwt.model.response.GetFreeDoctorsResponse;
 import com.example.spring_jwt.service.DoctorService;
+import com.example.spring_jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,23 +24,26 @@ public class DoctorController {
     @Autowired
     DoctorService doctorService;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("")
     public ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doctor){
         doctorService.saveDoctor(doctor);
         return ResponseEntity.ok(doctor);
     }
 
-    @PutMapping("/updateDoctor/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable("id") Integer id, @RequestBody UpdateDoctor doctor){
-        Doctor oldDoctor = doctorService.getDocTorById(id);
-        if (oldDoctor == null){
-            return ResponseEntity.notFound().build();
-        }else{
-            oldDoctor.setFullName(doctor.getFullName());
-            oldDoctor.setSpecialization(doctor.getSpecialization());
-            return ResponseEntity.ok(oldDoctor);
-        }
-    }
+//    @PutMapping("/updateDoctor/{id}")
+//    public ResponseEntity<Doctor> updateDoctor(@PathVariable("id") Integer id, @RequestBody UpdateDoctor doctor){
+//        Doctor oldDoctor = doctorService.getDocTorById(id);
+//        if (oldDoctor == null){
+//            return ResponseEntity.notFound().build();
+//        }else{
+//            oldDoctor.setFullName(doctor.getFullName());
+//            oldDoctor.setSpecialization(doctor.getSpecialization());
+//            return ResponseEntity.ok(oldDoctor);
+//        }
+//    }
 
     @DeleteMapping("/deleteDoctor/{id}")
     public ResponseEntity<Doctor> deleteDoctor(@PathVariable("id") Integer id){
@@ -51,13 +57,22 @@ public class DoctorController {
     }
 
     @GetMapping("/getDoctorByUserId/userId/{userId}")
-    public Doctor getDoctorByUserId(@PathVariable("userId") Integer userId) {
+    public DoctorDetail getDoctorByUserId(@PathVariable("userId") Integer userId) {
+        DoctorDetail doctorDetail = new DoctorDetail();
         try {
-            return doctorService.getDoctorByUserId(userId);
+            User user = userService.getUserById(userId);
+            doctorDetail.setAge(user.getPatient().getAge());
+            doctorDetail.setGender(user.getGender());
+            doctorDetail.setFullName(user.getFullName());
+            doctorDetail.setImage(user.getImage());
+            doctorDetail.setSpecName(user.getDoctor().getSpecialization().getSpecName());
+            doctorDetail.setPhoneNumber(user.getPatient().getPhoneNumber());
+            doctorDetail.setId(user.getDoctor().getId());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return doctorDetail;
     }
 
     @PostMapping("/getDoctorsByCategory")

@@ -38,20 +38,6 @@ public class PatientServiceImpl implements PatientService {
         return null;
     }
 
-    @Override
-    public Patient getPatientByEmail(String email) {
-        try {
-            List<Patient> patients = patientRepository.getByEmail(email);
-            if(patients.size()==1){
-                return patients.get(0);
-            }else {
-                return null;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
     public Patient getPatientByUserId(Integer userId) {

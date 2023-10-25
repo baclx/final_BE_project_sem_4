@@ -17,9 +17,6 @@ public class Doctor {
     @Column(name = "id")
     private Integer id;
 
-    private String fullName;
-
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference
@@ -45,7 +42,6 @@ public class Doctor {
     public String toString() {
         return "Doctor{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

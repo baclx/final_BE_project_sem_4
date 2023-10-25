@@ -17,23 +17,17 @@ public class Patient {
     @Column(name = "id")
     private Integer id;
 
-    private int age;
-
-    private String email;
-
-    private String gender;
-
-    private String image;
-
     private String height;
 
     private String weight;
 
     private String address;
 
-    private String phoneNumber;
-
     private LocalDate dateOfBirth;
+
+    private int age;
+
+    private String phoneNumber;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -43,7 +37,6 @@ public class Patient {
     @CreationTimestamp
     private Date createdAt;
 
-    private String fullName;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -58,11 +51,7 @@ public class Patient {
     public String toString() {
         return "Patient{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
                 ", age=" + age +
-                ", email='" + email + '\'' +
-                ", geder='" + gender + '\'' +
-                ", image='" + image + '\'' +
                 ", height='" + height + '\'' +
                 ", weight='" + weight + '\'' +
                 ", address='" + address + '\'' +

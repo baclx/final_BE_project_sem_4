@@ -10,6 +10,7 @@ import com.example.spring_jwt.model.response.MedicalRecordResponse;
 import com.example.spring_jwt.service.*;
 import com.example.spring_jwt.util.FileStorageService;
 import com.itextpdf.text.DocumentException;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -74,22 +75,15 @@ public class MedicalRecordController {
 
     private void genFilePDF(CreateMedicalRecord createMedicalRecord, String imagesString) throws DocumentException, IOException, MessagingException {
         Doctor doctor = doctorService.getDocTorById(createMedicalRecord.getDoctorId());
-        createMedicalRecord.setDoctorName(doctor.getFullName());
+        createMedicalRecord.setDoctorName(doctor.getUser().getFullName());
         Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
-        String to = patient.getEmail();
+        String to = patient.getUser().getEmail();
         //String to = createMedicalRecord.getPatientEmail();
         String subject = sendMailProperties.getTestResultSubject();
         String text = sendMailProperties.getTestResultText();
 
         String outputFile = pdfService.generatePdf(createMedicalRecord, imagesString);
         String filePath = outputFile;
-        System.out.println("======================");
-        System.out.println("======================");
-        System.out.println("======================");
-        System.out.println("======================");
-        System.out.println("======================");
-        System.out.println("======================");
-        System.out.println(filePath);
         emailService.sendEmail(to, subject, text, filePath);
     }
 
@@ -103,13 +97,14 @@ public class MedicalRecordController {
                 for (MedicalRecord medicalRecord : medicalRecords){
                     MedicalRecordResponse medicalRecordResponse = new MedicalRecordResponse();
                     medicalRecordResponse.setDateTime(medicalRecord.getCreatedAt());
-                    medicalRecordResponse.setDoctorName(medicalRecord.getDoctor().getFullName());
-                    medicalRecordResponse.setPatientName(medicalRecord.getPatient().getFullName());
+                    medicalRecordResponse.setDoctorName(medicalRecord.getDoctor().getUser().getFullName());
+                    medicalRecordResponse.setPatientName(medicalRecord.getPatient().getUser().getFullName());
                     medicalRecordResponses.add(medicalRecordResponse);
                 }
                 return ResponseEntity.ok(medicalRecordResponses);
             }
         }catch (Exception e){
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return (ResponseEntity<?>) ResponseEntity.notFound();
