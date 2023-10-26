@@ -118,14 +118,17 @@ public class UserController {
         userDetail.setRoleNames(roleNames);
         userDetail.setEmail(user.getEmail());
         userDetail.setFullName(user.getFullName());
-        userDetail.setAddress(user.getPatient().getAddress());
-        userDetail.setAge(userDetail.getAge());
-        userDetail.setWeight(user.getPatient().getWeight());
-        userDetail.setHeight(user.getPatient().getHeight());
-        userDetail.setPhoneNumber(user.getPatient().getPhoneNumber());
-        userDetail.setDateOfBirth(user.getPatient().getDateOfBirth());
-        userDetail.setImage(user.getImage());
-        userDetail.setGender(user.getGender());
+        if(user.getPatient() != null){
+            userDetail.setAddress(user.getPatient().getAddress() != null ? user.getPatient().getAddress() : "");
+            userDetail.setAge(user.getPatient().getAge() != null ? user.getPatient().getAge() : null);
+            userDetail.setWeight(user.getPatient().getWeight() != null ? user.getPatient().getWeight() : "");
+            userDetail.setHeight(user.getPatient().getHeight() != null ? user.getPatient().getHeight(): "");
+            userDetail.setPhoneNumber(user.getPatient().getPhoneNumber() != null ? user.getPatient().getPhoneNumber(): "");
+            userDetail.setDateOfBirth(user.getPatient().getDateOfBirth() != null ? user.getPatient().getDateOfBirth() : null);
+            userDetail.setImage(user.getImage() != null ? userDetail.getImage() : "");
+            userDetail.setGender(user.getGender() != null ? userDetail.getGender() : "");
+        }
+
         return userDetail;
     }
 
@@ -138,7 +141,7 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return (ResponseEntity<UserDetail>) ResponseEntity.notFound();
+        return ( ResponseEntity<UserDetail>) ResponseEntity.notFound();
     }
 
     @DeleteMapping("/deleteUser/{id}")

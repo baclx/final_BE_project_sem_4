@@ -13,6 +13,7 @@ public class JwtResponse {
         this.accessToken = accessToken;
         this.username = username;
         this.fullName = name;
+
     }
 
     public int getId() {
