@@ -3,6 +3,7 @@ package com.example.spring_jwt.service.impl;
 import com.example.spring_jwt.entities.Appointment;
 import com.example.spring_jwt.entities.Doctor;
 import com.example.spring_jwt.model.GetFreeDoctorByCategory;
+import com.example.spring_jwt.model.response.DoctorDetail;
 import com.example.spring_jwt.repository.AppointmentRepository;
 import com.example.spring_jwt.repository.DoctorRepository;
 import com.example.spring_jwt.service.DoctorService;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.lang.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +59,9 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Doctor> getFreeDoctorByCategory(GetFreeDoctorByCategory requestBody) {
+    public List<DoctorDetail> getFreeDoctorByCategory(GetFreeDoctorByCategory requestBody) {
         List<Doctor> freeDoctorsByCategory = new ArrayList<>();
+        List<DoctorDetail> doctorDetails = new ArrayList<>();
         try {
             List<Doctor> doctorsBySpecialization = doctorRepository.getDoctorBySpecializationId(requestBody.getCategoryId());
             List<Doctor> doctorsByAppointmentTime = new ArrayList<>();
@@ -76,10 +79,22 @@ public class DoctorServiceImpl implements DoctorService {
                 }
             }
             freeDoctorsByCategory.addAll(doctorsBySpecialization);
+
+            for (Doctor doctor : freeDoctorsByCategory){
+                DoctorDetail doctorDetail = new DoctorDetail();
+                doctorDetail.setId(doctor.getId());
+                doctorDetail.setImage(doctor.getUser().getImage() != null ? doctor.getUser().getImage(): "");
+                doctorDetail.setGender(doctor.getUser().getGender() != null ? doctor.getUser().getGender(): null);
+                doctorDetail.setPhoneNumber(doctor.getUser().getPatient().getPhoneNumber());
+                doctorDetail.setSpecName(doctor.getSpecialization().getSpecName());
+                doctorDetail.setAge(doctor.getUser().getPatient().getAge() != null ? doctor.getUser().getPatient().getAge(): null);
+                doctorDetail.setFullName(doctor.getUser().getFullName());
+                doctorDetails.add(doctorDetail);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return freeDoctorsByCategory;
+        return doctorDetails;
     }
 
     @Override

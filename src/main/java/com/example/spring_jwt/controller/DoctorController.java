@@ -78,7 +78,7 @@ public class DoctorController {
     @PostMapping("/getDoctorsByCategory")
     public GetFreeDoctorsResponse getDoctorsByCategory(@RequestBody GetFreeDoctorByCategory requestBody) {
         GetFreeDoctorsResponse response = new GetFreeDoctorsResponse();
-        List<Doctor> doctors = new ArrayList<>();
+        List<DoctorDetail> doctors = new ArrayList<>();
         try {
             doctors = doctorService.getFreeDoctorByCategory(requestBody);
             response.setFreeDoctors(doctors);
