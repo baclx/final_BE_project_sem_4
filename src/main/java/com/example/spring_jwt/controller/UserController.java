@@ -7,6 +7,7 @@ import com.example.spring_jwt.model.response.UserDetail;
 import com.example.spring_jwt.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -144,6 +146,21 @@ public class UserController {
             e.printStackTrace();
         }
         return ( ResponseEntity<UserDetail>) ResponseEntity.notFound();
+    }
+
+    @GetMapping("/listUser/{role}")
+    public ResponseEntity<?> findAllByRole(@PathVariable("role") String role) {
+        try {
+            List<User> users = userService.findAllByRole(role);
+            if (users.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            List<UserDetail> userDetails = users.stream().map(UserController::mappingUserDetail).collect(Collectors.toList());
+            return ResponseEntity.ok(userDetails);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("/deleteUser/{id}")

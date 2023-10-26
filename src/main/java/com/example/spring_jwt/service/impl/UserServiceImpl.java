@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAllByRole(String role) {
+        return userRepository.findAllByRoles(role);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userOptional = userRepository.findByEmail(username).get(0);
 //        if (!userOptional.isPresent()){
