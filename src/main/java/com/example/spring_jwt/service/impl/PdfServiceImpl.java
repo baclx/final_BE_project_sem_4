@@ -68,7 +68,7 @@ public class PdfServiceImpl implements PdfService {
         PdfPTable addressTable = createTable(normalFont, "2. Address:", patient.getAddress(), boldFont);
         document.add(addressTable);
 
-        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber(), boldFont);
+        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber() != null? patient.getPhoneNumber():"", boldFont);
         document.add(phoneTable);
 
         PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:", patient.getDateOfBirth().toString(), boldFont);

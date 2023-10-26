@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/doctor")
@@ -61,13 +62,17 @@ public class DoctorController {
         DoctorDetail doctorDetail = new DoctorDetail();
         try {
             User user = userService.getUserById(userId);
-            doctorDetail.setAge(user.getPatient().getAge());
-            doctorDetail.setGender(user.getGender());
-            doctorDetail.setFullName(user.getFullName());
-            doctorDetail.setImage(user.getImage());
-            doctorDetail.setSpecName(user.getDoctor().getSpecialization().getSpecName());
-            doctorDetail.setPhoneNumber(user.getPatient().getPhoneNumber());
-            doctorDetail.setId(user.getDoctor().getId());
+            if(Objects.nonNull(user.getPatient())){
+                doctorDetail.setAge(user.getPatient().getAge() != null ? user.getPatient().getAge():null);
+                doctorDetail.setPhoneNumber(user.getPatient().getPhoneNumber() != null ? user.getPatient().getPhoneNumber() : "");
+            }
+
+            doctorDetail.setGender(user.getGender() != null ? user.getGender(): "");
+            doctorDetail.setFullName(user.getFullName() != null ? user.getFullName(): "");
+            doctorDetail.setImage(user.getImage() != null ? user.getImage(): "");
+            doctorDetail.setSpecName(user.getDoctor().getSpecialization().getSpecName() != null ? user.getDoctor().getSpecialization().getSpecName(): "");
+
+            doctorDetail.setId(user.getDoctor().getId() != null ? user.getDoctor().getId() : null);
 
         } catch (Exception e) {
             e.printStackTrace();

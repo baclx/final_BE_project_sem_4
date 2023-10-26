@@ -82,6 +82,7 @@ public class UserController {
             oldUser.setEmail(userUpdate.getEmail());
             oldUser.setImage(userUpdate.getImage());
             oldUser.setFullName(userUpdate.getFullName());
+            oldUser.setGender(userUpdate.getGender());
             mappingUser(oldUser, userUpdate);
             Patient patient = oldUser.getPatient();
             LocalDate now = LocalDate.now();
@@ -118,6 +119,8 @@ public class UserController {
         userDetail.setRoleNames(roleNames);
         userDetail.setEmail(user.getEmail());
         userDetail.setFullName(user.getFullName());
+        userDetail.setImage(user.getImage() != null ? user.getImage() : "");
+        userDetail.setGender(user.getGender() != null ? user.getGender() : "");
         if(user.getPatient() != null){
             userDetail.setAddress(user.getPatient().getAddress() != null ? user.getPatient().getAddress() : "");
             userDetail.setAge(user.getPatient().getAge() != null ? user.getPatient().getAge() : null);
@@ -125,8 +128,7 @@ public class UserController {
             userDetail.setHeight(user.getPatient().getHeight() != null ? user.getPatient().getHeight(): "");
             userDetail.setPhoneNumber(user.getPatient().getPhoneNumber() != null ? user.getPatient().getPhoneNumber(): "");
             userDetail.setDateOfBirth(user.getPatient().getDateOfBirth() != null ? user.getPatient().getDateOfBirth() : null);
-            userDetail.setImage(user.getImage() != null ? userDetail.getImage() : "");
-            userDetail.setGender(user.getGender() != null ? userDetail.getGender() : "");
+
         }
 
         return userDetail;
