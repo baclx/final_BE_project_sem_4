@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Patient {
 
     private LocalDate dateOfBirth;
 
-    private int age;
+    private Integer age;
 
     private String phoneNumber;
 

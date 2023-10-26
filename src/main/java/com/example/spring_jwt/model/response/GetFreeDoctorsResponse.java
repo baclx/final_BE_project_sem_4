@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class GetFreeDoctorsResponse {
     private LocalDateTime appointmentTime;
-    private List<Doctor> freeDoctors;
+    private List<DoctorDetail> freeDoctors;
 }
