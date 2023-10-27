@@ -119,6 +119,7 @@ public class UserController {
         for (Role role : user.getRoles()) {
             roleNames.add(role.getName());
         }
+        userDetail.setId(user.getId());
         userDetail.setRoleNames(roleNames);
         userDetail.setEmail(user.getEmail());
         userDetail.setFullName(user.getFullName());

@@ -33,8 +33,8 @@
 //                String subject = sendMailProperties.getGetAppointmentSubject();
 //
 //                for (Appointment appointment : appointments) {
-//                    String to = appointment.getPatient().getEmail();
-//                    String text = sendMailProperties.getGetAppointmentText() + appointment.getDoctor().getFullName() + " at: " + appointment.getAppointmentTime();
+//                    String to = appointment.getPatient().getUser().getEmail();
+//                    String text = sendMailProperties.getGetAppointmentText() + appointment.getDoctor().getUser().getFullName() + " at: " + appointment.getAppointmentTime();
 //                    emailService.sendEmail(to, subject, text, null);
 //                }
 //                System.out.println("Send email success!!!");

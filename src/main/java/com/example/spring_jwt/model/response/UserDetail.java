@@ -9,6 +9,7 @@ import java.util.List;
 
 @Data
 public class UserDetail {
+    private Integer id;
     private String fullName;
     private String email;
     private List<String> roleNames;
