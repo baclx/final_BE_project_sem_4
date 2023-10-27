@@ -39,6 +39,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateUserToDoctor")
+    @CrossOrigin("*")
     //@Secured("ROLE_ADMIN")
     public ResponseEntity<String> updateUserToDoctor(@RequestBody UpdateUserToDoctorReq updateUser){
         try {
