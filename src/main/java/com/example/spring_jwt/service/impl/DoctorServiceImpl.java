@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -85,10 +86,13 @@ public class DoctorServiceImpl implements DoctorService {
                 doctorDetail.setId(doctor.getId());
                 doctorDetail.setImage(doctor.getUser().getImage() != null ? doctor.getUser().getImage(): "");
                 doctorDetail.setGender(doctor.getUser().getGender() != null ? doctor.getUser().getGender(): null);
-                doctorDetail.setPhoneNumber(doctor.getUser().getPatient().getPhoneNumber());
+                if(Objects.nonNull(doctor.getUser().getPatient())){
+                    doctorDetail.setAge(doctor.getUser().getPatient().getAge() != null ? doctor.getUser().getPatient().getAge(): null);
+                    doctorDetail.setPhoneNumber(doctor.getUser().getPatient().getPhoneNumber() != null ? doctor.getUser().getPatient().getPhoneNumber(): "09999");
+                }
                 doctorDetail.setSpecName(doctor.getSpecialization().getSpecName());
-                doctorDetail.setAge(doctor.getUser().getPatient().getAge() != null ? doctor.getUser().getPatient().getAge(): null);
-                doctorDetail.setFullName(doctor.getUser().getFullName());
+
+                doctorDetail.setFullName(doctor.getUser().getFullName() != null ? doctor.getUser().getFullName(): "Doctor 's Name");
                 doctorDetails.add(doctorDetail);
             }
         } catch (Exception e) {

@@ -89,6 +89,7 @@ public class UserController {
             Patient patient = oldUser.getPatient();
             LocalDate now = LocalDate.now();
             int age = now.getYear() - userUpdate.getDateOfBirth().getYear();
+
             patient.setHeight(userUpdate.getHeight() != null ? userUpdate.getHeight() : "");
             patient.setWeight(userUpdate.getWeight() != null ? userUpdate.getWeight() : "");
             patient.setDateOfBirth(userUpdate.getDateOfBirth() != null ? userUpdate.getDateOfBirth() : null);
