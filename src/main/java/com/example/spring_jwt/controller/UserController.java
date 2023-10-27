@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @PostMapping("/update/{userId}")
-    public ResponseEntity<String> update(@PathVariable("userId") Integer userId, @RequestBody UpdateUserReq userUpdate) {
+    public ResponseEntity<User> update(@PathVariable("userId") Integer userId, @RequestBody UpdateUserReq userUpdate) {
         try {
             User oldUser = userService.getUserById(userId);
             if (oldUser == null) {
@@ -101,11 +101,11 @@ public class UserController {
             patientService.savePatient(patient);
             //oldUser.setPatient(patient);
             userService.save(oldUser);
-            return ResponseEntity.ok("Update user thanh cong");
+            return ResponseEntity.ok(oldUser);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return (ResponseEntity<String>) ResponseEntity.badRequest();
+        return (ResponseEntity<User>) ResponseEntity.badRequest();
     }
 
     private static void mappingUser(User user, UpdateUserReq userDetail) {
