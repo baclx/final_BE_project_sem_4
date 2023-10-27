@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(value = {"https://health-care-a48b1.web.app","*"})
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
@@ -39,7 +39,6 @@ public class AdminController {
     }
 
     @PostMapping("/updateUserToDoctor")
-    @CrossOrigin("*")
     //@Secured("ROLE_ADMIN")
     public ResponseEntity<String> updateUserToDoctor(@RequestBody UpdateUserToDoctorReq updateUser){
         try {
