@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class AdminController {
     @Autowired
     DoctorService doctorService;
