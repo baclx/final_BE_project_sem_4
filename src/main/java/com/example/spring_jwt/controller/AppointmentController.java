@@ -50,16 +50,22 @@ public class AppointmentController {
     }
 
     @GetMapping("/getByUserId/{userId}")
-    public List<Appointment> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
+    public List<AppointmentDetail> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
         List<Appointment> appointments = new ArrayList<>();
         List<AppointmentDetail> appointmentDetails = new ArrayList<>();
         try {
             appointments = appointmentService.getAppointmentsByUserId(userId);
-
+            for(Appointment appointment : appointments){
+                AppointmentDetail appointmentDetail = new AppointmentDetail();
+                appointmentDetail.setAppointment(appointment);
+                appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+                appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
+                appointmentDetails.add(appointmentDetail);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return appointments;
+        return appointmentDetails;
     }
 
 }

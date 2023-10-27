@@ -1,5 +1,6 @@
 package com.example.spring_jwt.model.response;
 
+import com.example.spring_jwt.entities.Appointment;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,5 +9,5 @@ import java.time.LocalDateTime;
 public class AppointmentDetail {
     private String doctorName;
     private String patientName;
-    private LocalDateTime appointmentTime;
+    private Appointment appointment;
 }
