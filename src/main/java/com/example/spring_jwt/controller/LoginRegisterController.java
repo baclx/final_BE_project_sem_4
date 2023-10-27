@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class LoginRegisterController {

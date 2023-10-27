@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("api/doctor")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class DoctorController {
     @Autowired
     DoctorService doctorService;
