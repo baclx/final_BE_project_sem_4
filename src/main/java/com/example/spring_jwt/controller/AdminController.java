@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(value = {"https://health-care-a48b1.web.app","*"})
+@CrossOrigin(origins = {"https://health-care-a48b1.web.app", "*"})
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
