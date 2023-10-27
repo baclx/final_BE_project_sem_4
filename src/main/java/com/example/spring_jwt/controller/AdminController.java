@@ -9,6 +9,8 @@ import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.RoleService;
 import com.example.spring_jwt.service.SpecializationService;
 import com.example.spring_jwt.service.UserService;
+import io.jsonwebtoken.lang.Collections;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -44,7 +46,7 @@ public class AdminController {
         try {
             User user = userService.getUserById(updateUser.getUserId());
             Set<Role> roles = user.getRoles();
-            if(!roles.contains(roleService.findByName("ROLE_DOCTOR"))){
+            if(Collections.isEmpty(roles) || !roles.contains(roleService.findByName("ROLE_DOCTOR"))){
                 roles.add(roleService.findByName("ROLE_DOCTOR"));
                 Specialization specialization = specializationService.getSpecializationById(updateUser.getSpecId());
                 Doctor doctor = new Doctor();
