@@ -11,6 +11,7 @@ import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -95,13 +96,29 @@ public class DoctorController {
     }
 
     @GetMapping("/getBySpecId/{specId}")
-    public List<Doctor> getDoctorBySpecId(@PathVariable("specId") Integer specId) {
+    public List<DoctorDetail> getDoctorBySpecId(@PathVariable("specId") Integer specId) {
+        List<DoctorDetail> doctorDetails = new ArrayList<>();
+        List<Doctor> doctors = new ArrayList<>();
         try {
-            return doctorService.getDoctorsBySpecId(specId);
+            doctors = doctorService.getDoctorsBySpecId(specId);
+            if(!CollectionUtils.isEmpty(doctors)){
+                for (Doctor doctor : doctors){
+                    DoctorDetail doctorDetail = new DoctorDetail();
+                    doctorDetail.setFullName(doctor.getUser().getFullName());
+                    doctorDetail.setSpecName(doctor.getSpecialization().getSpecName());
+                    if(Objects.nonNull(doctor.getUser().getPatient())){
+                        doctorDetail.setAge(doctor.getUser().getPatient().getAge());
+                    }
+                    doctorDetail.setImage(doctor.getUser().getImage());
+                    doctorDetail.setGender(doctor.getUser().getGender());
+                    doctorDetail.setId(doctor.getId());
+                    doctorDetails.add(doctorDetail);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return doctorDetails;
     }
 
 }

@@ -12,4 +12,8 @@ public class PatientResponse {
     private LocalDate dateOfBirth;
     private String gender;
     private Integer id;
+    private String height;
+    private String weight;
+    private String email;
+    private String image;
 }
