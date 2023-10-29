@@ -59,6 +59,7 @@ public class MedicalRecordController {
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<String> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody) {
+        String response = "Failed!!";
         MedicalRecord medicalRecord = new MedicalRecord();
         try {
            // fileStorageService.uploadImage(files);
@@ -74,10 +75,11 @@ public class MedicalRecordController {
             return ResponseEntity.ok("Successfully!!");
 
         } catch (Exception e) {
+            response = e.getMessage();
             e.printStackTrace();
 
         }
-        return ResponseEntity.ok("Failed!!");
+        return ResponseEntity.ok(response);
     }
 
     private void genFilePDF(CreateMedicalRecord createMedicalRecord, String imagesString) throws DocumentException, IOException, MessagingException {

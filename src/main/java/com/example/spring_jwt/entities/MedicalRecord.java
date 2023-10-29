@@ -42,4 +42,10 @@ public class MedicalRecord {
 
     private Integer isDeleted;
 
+    private String biochemicalTests;
+
+    private String imageAnalysation;
+
+
+
 }

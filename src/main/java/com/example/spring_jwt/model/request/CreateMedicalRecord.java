@@ -20,4 +20,5 @@ public class CreateMedicalRecord {
     private List<String> files;
     private String biochemicalTests;
     private String imageAnalysation;
+
 }

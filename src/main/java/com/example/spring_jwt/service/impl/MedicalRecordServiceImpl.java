@@ -58,7 +58,9 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             medicalRecord.setPatient(patient);
             medicalRecord.setDoctor(doctor);
             medicalRecord.setDiseaseProgression(requestBody.getDiseaseProgression());
-            medicalRecord.setTestResult(requestBody.getTestResult());
+            medicalRecord.setImageAnalysation(requestBody.getImageAnalysation());
+            medicalRecord.setBiochemicalTests(requestBody.getBiochemicalTests());
+            //medicalRecord.setTestResult(requestBody.getTestResult());
             medicalRecord.setIsDeleted(0);
             medicalRecord.setImages(linkImages);
             //System.out.println(new Gson().toJson(medicalRecord));
@@ -76,7 +78,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             CreateMedicalRecord createMedicalRecord = new CreateMedicalRecord();
             createMedicalRecord.setDoctorId(medicalRecord.getDoctor().getId());
             createMedicalRecord.setDoctorName(medicalRecord.getDoctor().getUser().getFullName());
-            createMedicalRecord.setTestResult(medicalRecord.getTestResult());
+            //createMedicalRecord.setTestResult(medicalRecord.getTestResult());
             //createMedicalRecord.setPatientEmail(medicalRecord.getPatient().getEmail());
             createMedicalRecord.setPatientId(medicalRecord.getPatient().getId());
             createMedicalRecord.setNoteFromDoctor(medicalRecord.getNoteFromDoctor());
