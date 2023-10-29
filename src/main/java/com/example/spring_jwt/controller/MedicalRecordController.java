@@ -75,7 +75,7 @@ public class MedicalRecordController {
             e.printStackTrace();
 
         }
-        return null;
+        return ResponseEntity.ok("Failed!!");
     }
 
     private void genFilePDF(CreateMedicalRecord createMedicalRecord, String imagesString) throws DocumentException, IOException, MessagingException {
