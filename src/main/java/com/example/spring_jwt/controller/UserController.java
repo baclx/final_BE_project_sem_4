@@ -81,7 +81,7 @@ public class UserController {
             if (oldUser == null) {
                 return ResponseEntity.notFound().build();
             }
-            oldUser.setEmail(userUpdate.getEmail() != null ? userUpdate.getEmail() : "");
+            //oldUser.setEmail(userUpdate.getEmail() != null ? userUpdate.getEmail() : "");
             oldUser.setImage(userUpdate.getImage() != null ? userUpdate.getImage() : "");
             oldUser.setFullName(userUpdate.getFullName() != null ? userUpdate.getFullName() : "");
             oldUser.setGender(userUpdate.getGender() != null ? userUpdate.getGender() : "");
@@ -100,7 +100,7 @@ public class UserController {
             patient.setUser(oldUser);
             patientService.savePatient(patient);
             //oldUser.setPatient(patient);
-            userService.save(oldUser);
+            userService.updateUser(oldUser);
             return ResponseEntity.ok(oldUser);
         } catch (Exception e) {
             e.printStackTrace();
