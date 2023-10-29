@@ -81,7 +81,7 @@ public class PdfServiceImpl implements PdfService {
         document.add(imageTable);
 
 
-        String testResultJson = createMedicalRecord.getTestResult();
+        //String testResultJson = createMedicalRecord.getTestResult();
         document.add(new Paragraph("6. Test results:", boldFont));
         PdfPTable testResultsTable = createTestResultsTable(normalFont, createMedicalRecord, boldFont);
         document.add(testResultsTable);
