@@ -64,7 +64,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             //System.out.println(new Gson().toJson(medicalRecord));
             medicalRecordRepository.save(medicalRecord);
         } catch (Exception ex) {
-            return null;
+            ex.printStackTrace();
         }
         return medicalRecord;
     }

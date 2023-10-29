@@ -10,6 +10,7 @@ import com.example.spring_jwt.model.response.MedicalRecordResponse;
 import com.example.spring_jwt.service.*;
 import com.example.spring_jwt.util.FileStorageService;
 import com.itextpdf.text.DocumentException;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,23 +56,24 @@ public class MedicalRecordController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<MedicalRecord> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody, @RequestParam("files") MultipartFile[] files) {
+    public ResponseEntity<String> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody) {
         MedicalRecord medicalRecord = new MedicalRecord();
         try {
-            fileStorageService.uploadImage(files);
-            List<String> imageList = new ArrayList<>();
-            for (MultipartFile file : files) {
-                String imagePath = "images/" + file.getOriginalFilename();
-                imageList.add(imagePath);
-            }
-            String imagesString = String.join(",", imageList);
+           // fileStorageService.uploadImage(files);
+//            List<String> imageList = new ArrayList<>();
+//            for (MultipartFile file : files) {
+//                String imagePath = "images/" + file.getOriginalFilename();
+//                imageList.add(imagePath);
+//            }
+            String imagesString = String.join(",", requestBody.getFiles());
             genFilePDF(requestBody, imagesString);
             medicalRecord = medicalRecordService.createOrUpdateMedicalRecord(null, requestBody,imagesString);
-
-            return ResponseEntity.ok(medicalRecord);
+            // Xóa tệp tạm thời sử dụng Apache Commons IO
+            return ResponseEntity.ok("Successfully!!");
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         return null;
     }

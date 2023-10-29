@@ -3,6 +3,8 @@ package com.example.spring_jwt.model.request;
 
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class CreateMedicalRecord {
@@ -15,4 +17,5 @@ public class CreateMedicalRecord {
     private String noteFromDoctor;
     private String diseaseProgression;
     private String medicationDetails;
+    private List<String> files;
 }
