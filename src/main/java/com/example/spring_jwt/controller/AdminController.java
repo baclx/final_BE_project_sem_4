@@ -53,7 +53,7 @@ public class AdminController {
                 doctor.setUser(user);
                 doctor.setSpecialization(specialization);
                 doctorService.saveDoctor(doctor);
-                userService.save(user);
+                userService.updateUser(user);
             }
             return ResponseEntity.ok("Update User to doctor successfully!!");
         }catch (Exception e){

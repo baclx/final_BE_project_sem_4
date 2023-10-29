@@ -148,14 +148,15 @@ public class PdfServiceImpl implements PdfService {
     }
 
     private static PdfPTable imageTable(String listImageUrls) throws IOException, BadElementException {
-        //String images = listImageUrls;
-        String images = "[\"https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D\",\"https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D\"]";
-        //.replace("[", "").replace("]", "").replace("\"","");
-        String anh = "https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D";
-        images = images.replace("[", "").replace("]", "").replace("\"","");
-        String[] imageArray = images.split(",");
+        String images = listImageUrls;
 
-        ArrayList<String> imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
+        images = images.replace("[", "").replace("]", "").replace("\"","");
+        ArrayList<String> imageUrlList = new ArrayList<>();
+        imageUrlList.add(images);
+        if(images.contains(",")){
+            String[] imageArray = images.split(",");
+            imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
+        }
 
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
@@ -163,11 +164,9 @@ public class PdfServiceImpl implements PdfService {
         table.setSpacingBefore(10f);
 
         for (String imageUrl : imageUrlList) {
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-           // URL linkImage = classLoader.getResource(imageUrl);
             System.out.println(imageUrl);
             if (imageUrl != null) {
-                Image image = Image.getInstance(anh);
+                Image image = Image.getInstance(imageUrl);
                 PdfPCell cell = new PdfPCell(image, true);
                 cell.setPadding(10);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -183,7 +182,7 @@ public class PdfServiceImpl implements PdfService {
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
 
-        String[] elements = jsonString.split("\\n");
+        String[] elements = jsonString.split("\\\\n");
 
         List<String> resultList = new ArrayList<>();
 
@@ -228,54 +227,54 @@ public class PdfServiceImpl implements PdfService {
 
     private static PdfPTable createTestResultsTable(Font font, CreateMedicalRecord createMedicalRecord, Font boldFont) throws JsonProcessingException {
 
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        TestResult testResult = objectMapper.readValue(testResultJson, TestResult.class);
-//
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
         table.setSpacingBefore(10f);
-//
-//
-//        List<Map<String, List<String>>> datas = testResult.getData();
 
-//        for (Map<String, List<String>> map : datas) {
-//            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-//                String key = entry.getKey();
-//                List<String> values = entry.getValue();
-//                PdfPCell cell = new PdfPCell(new Phrase(key, boldFont));
-//                cell.setPadding(5);
-//                cell.setBorder(Rectangle.NO_BORDER);
-//
-//                table.addCell(cell);
-//
-//                for (String value : values) {
-//                    Paragraph testResultsParagraph = new Paragraph(value, font);
-//                    testResultsParagraph.setIndentationLeft(20f);
-//                    addCell(table, value, font);
-//                }
-//            }
-//            addSeparator(table);
-//
-//        }
         PdfPCell cell1 = new PdfPCell(new Phrase("Biochemical tests", boldFont));
         cell1.setPadding(5);
         cell1.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell1);
 
+        String bioChemicalTestString = createMedicalRecord.getBiochemicalTests();
+        String[] bioChemicalTestStrings = bioChemicalTestString.split("\\\\n");
+        List<String> bioChemicalTestResult = new ArrayList<>();
+
+        for (String element : bioChemicalTestStrings) {
+            bioChemicalTestResult.add(element.trim());
+        }
+
+
         Paragraph testResultsParagraph1 = new Paragraph(createMedicalRecord.getBiochemicalTests(), font);
         testResultsParagraph1.setIndentationLeft(20f);
-        addCell(table, createMedicalRecord.getBiochemicalTests(), font);
+        for (String result : bioChemicalTestResult) {
+            addCell(table, result, font);
+        }
+
+
+
 
         PdfPCell cell2 = new PdfPCell(new Phrase("Image analysation", boldFont));
         cell2.setPadding(5);
         cell2.setBorder(Rectangle.NO_BORDER);
+
         table.addCell(cell2);
+
+        String imageAnalysString = createMedicalRecord.getImageAnalysation();
+        String[] iamgeAnalysStringArr = imageAnalysString.split("\\\\n");
+        List<String> imagesAnalystations = new ArrayList<>();
+
+        for (String element : iamgeAnalysStringArr) {
+            imagesAnalystations.add(element.trim());
+        }
 
         Paragraph testResultsParagraph2 = new Paragraph(createMedicalRecord.getBiochemicalTests(), font);
         testResultsParagraph2.setIndentationLeft(20f);
-        addCell(table, createMedicalRecord.getBiochemicalTests(), font);
+        for (String result : imagesAnalystations) {
+            addCell(table, result, font);
+        }
+        //addCell(table, createMedicalRecord.getBiochemicalTests(), font);
         addSeparator(table);
 
         return table;

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserService extends GeneralService<User>, UserDetailsService {
 
+    User updateUser(User user);
+
     User findByEmail(String email);
 
     User getUserById(Integer id);
