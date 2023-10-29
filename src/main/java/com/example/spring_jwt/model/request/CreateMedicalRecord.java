@@ -18,4 +18,6 @@ public class CreateMedicalRecord {
     private String diseaseProgression;
     private String medicationDetails;
     private List<String> files;
+    private String biochemicalTests;
+    private String imageAnalysation;
 }

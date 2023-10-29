@@ -83,7 +83,7 @@ public class PdfServiceImpl implements PdfService {
 
         String testResultJson = createMedicalRecord.getTestResult();
         document.add(new Paragraph("6. Test results:", boldFont));
-        PdfPTable testResultsTable = createTestResultsTable(normalFont, testResultJson, boldFont);
+        PdfPTable testResultsTable = createTestResultsTable(normalFont, createMedicalRecord, boldFont);
         document.add(testResultsTable);
 
         String medicalDetailsString = createMedicalRecord.getMedicationDetails();
@@ -148,8 +148,11 @@ public class PdfServiceImpl implements PdfService {
     }
 
     private static PdfPTable imageTable(String listImageUrls) throws IOException, BadElementException {
-        String images = listImageUrls;
+        //String images = listImageUrls;
+        String images = "[\"https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D\",\"https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D\"]";
         //.replace("[", "").replace("]", "").replace("\"","");
+        String anh = "https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D";
+        images = images.replace("[", "").replace("]", "").replace("\"","");
         String[] imageArray = images.split(",");
 
         ArrayList<String> imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
@@ -161,17 +164,14 @@ public class PdfServiceImpl implements PdfService {
 
         for (String imageUrl : imageUrlList) {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            URL linkImage = classLoader.getResource(imageUrl);
+           // URL linkImage = classLoader.getResource(imageUrl);
             System.out.println(imageUrl);
             if (imageUrl != null) {
-                if (linkImage != null) {
-                    //Image image = Image.getInstance(new URL(imageUrl));
-                    Image image = Image.getInstance(linkImage);
-                    PdfPCell cell = new PdfPCell(image, true);
-                    cell.setPadding(10);
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(cell);
-                }
+                Image image = Image.getInstance(anh);
+                PdfPCell cell = new PdfPCell(image, true);
+                cell.setPadding(10);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(cell);
             }
 
         }
@@ -226,39 +226,57 @@ public class PdfServiceImpl implements PdfService {
         table.addCell(separatorCell);
     }
 
-    private static PdfPTable createTestResultsTable(Font font, String testResultJson, Font boldFont) throws JsonProcessingException {
+    private static PdfPTable createTestResultsTable(Font font, CreateMedicalRecord createMedicalRecord, Font boldFont) throws JsonProcessingException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        TestResult testResult = objectMapper.readValue(testResultJson, TestResult.class);
-
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        TestResult testResult = objectMapper.readValue(testResultJson, TestResult.class);
+//
         PdfPTable table = new PdfPTable(1);
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
         table.setSpacingBefore(10f);
+//
+//
+//        List<Map<String, List<String>>> datas = testResult.getData();
 
+//        for (Map<String, List<String>> map : datas) {
+//            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+//                String key = entry.getKey();
+//                List<String> values = entry.getValue();
+//                PdfPCell cell = new PdfPCell(new Phrase(key, boldFont));
+//                cell.setPadding(5);
+//                cell.setBorder(Rectangle.NO_BORDER);
+//
+//                table.addCell(cell);
+//
+//                for (String value : values) {
+//                    Paragraph testResultsParagraph = new Paragraph(value, font);
+//                    testResultsParagraph.setIndentationLeft(20f);
+//                    addCell(table, value, font);
+//                }
+//            }
+//            addSeparator(table);
+//
+//        }
+        PdfPCell cell1 = new PdfPCell(new Phrase("Biochemical tests", boldFont));
+        cell1.setPadding(5);
+        cell1.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell1);
 
-        List<Map<String, List<String>>> datas = testResult.getData();
+        Paragraph testResultsParagraph1 = new Paragraph(createMedicalRecord.getBiochemicalTests(), font);
+        testResultsParagraph1.setIndentationLeft(20f);
+        addCell(table, createMedicalRecord.getBiochemicalTests(), font);
 
-        for (Map<String, List<String>> map : datas) {
-            for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-                String key = entry.getKey();
-                List<String> values = entry.getValue();
-                PdfPCell cell = new PdfPCell(new Phrase(key, boldFont));
-                cell.setPadding(5);
-                cell.setBorder(Rectangle.NO_BORDER);
+        PdfPCell cell2 = new PdfPCell(new Phrase("Image analysation", boldFont));
+        cell2.setPadding(5);
+        cell2.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell2);
 
-                table.addCell(cell);
-
-                for (String value : values) {
-                    Paragraph testResultsParagraph = new Paragraph(value, font);
-                    testResultsParagraph.setIndentationLeft(20f);
-                    addCell(table, value, font);
-                }
-            }
-            addSeparator(table);
-
-        }
+        Paragraph testResultsParagraph2 = new Paragraph(createMedicalRecord.getBiochemicalTests(), font);
+        testResultsParagraph2.setIndentationLeft(20f);
+        addCell(table, createMedicalRecord.getBiochemicalTests(), font);
+        addSeparator(table);
 
         return table;
     }

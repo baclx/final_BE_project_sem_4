@@ -51,7 +51,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             } else {
                 medicalRecord.setDiseaseProgression(requestBody.getDiseaseProgression());
             }
-            Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());
+            Doctor doctor = doctorService.getDoctorByUserId(requestBody.getDoctorId());
             medicalRecord.setMedicationDetails(requestBody.getMedicationDetails());
             medicalRecord.setCurrentCondition(requestBody.getCurrentCondition());
             medicalRecord.setNoteFromDoctor(requestBody.getNoteFromDoctor());

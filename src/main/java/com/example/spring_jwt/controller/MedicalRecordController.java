@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,6 +57,7 @@ public class MedicalRecordController {
 
 
     @PostMapping("/create")
+    @Transactional
     public ResponseEntity<String> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody) {
         MedicalRecord medicalRecord = new MedicalRecord();
         try {
@@ -68,7 +70,7 @@ public class MedicalRecordController {
             String imagesString = String.join(",", requestBody.getFiles());
             genFilePDF(requestBody, imagesString);
             medicalRecord = medicalRecordService.createOrUpdateMedicalRecord(null, requestBody,imagesString);
-            // Xóa tệp tạm thời sử dụng Apache Commons IO
+
             return ResponseEntity.ok("Successfully!!");
 
         } catch (Exception e) {
@@ -79,7 +81,7 @@ public class MedicalRecordController {
     }
 
     private void genFilePDF(CreateMedicalRecord createMedicalRecord, String imagesString) throws DocumentException, IOException, MessagingException {
-        Doctor doctor = doctorService.getDocTorById(createMedicalRecord.getDoctorId());
+        Doctor doctor = doctorService.getDoctorByUserId(createMedicalRecord.getDoctorId());
         createMedicalRecord.setDoctorName(doctor.getUser().getFullName());
         Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
         String to = patient.getUser().getEmail();
