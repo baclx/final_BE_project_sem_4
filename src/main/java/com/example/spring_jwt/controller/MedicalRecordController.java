@@ -58,7 +58,7 @@ public class MedicalRecordController {
 
     @PostMapping("/create")
     @Transactional
-    public ResponseEntity<String> createMedicalRecord(@RequestBody CreateMedicalRecord requestBody) {
+    public ResponseEntity<String> createMedicalRecord(@ModelAttribute CreateMedicalRecord requestBody) {
         String response = "Failed!!";
         MedicalRecord medicalRecord = new MedicalRecord();
         try {
