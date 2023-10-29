@@ -1,6 +1,7 @@
 package com.example.spring_jwt.model.request;
 
 
+import com.example.spring_jwt.model.MedicationDetail;
 import lombok.Data;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class CreateMedicalRecord {
     private String currentCondition;
     private String noteFromDoctor;
     private String diseaseProgression;
-    private String medicationDetails;
+    private List<MedicationDetail> medicationDetails;
     private List<String> files;
     private String biochemicalTests;
     private String imageAnalysation;

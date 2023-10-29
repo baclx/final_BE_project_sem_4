@@ -52,7 +52,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
                 medicalRecord.setDiseaseProgression(requestBody.getDiseaseProgression());
             }
             Doctor doctor = doctorService.getDoctorByUserId(requestBody.getDoctorId());
-            medicalRecord.setMedicationDetails(requestBody.getMedicationDetails());
+            medicalRecord.setMedicationDetails(requestBody.getMedicationDetails().toString());
             medicalRecord.setCurrentCondition(requestBody.getCurrentCondition());
             medicalRecord.setNoteFromDoctor(requestBody.getNoteFromDoctor());
             medicalRecord.setPatient(patient);
@@ -82,7 +82,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
             //createMedicalRecord.setPatientEmail(medicalRecord.getPatient().getEmail());
             createMedicalRecord.setPatientId(medicalRecord.getPatient().getId());
             createMedicalRecord.setNoteFromDoctor(medicalRecord.getNoteFromDoctor());
-            createMedicalRecord.setMedicationDetails(medicalRecord.getMedicationDetails());
+//            createMedicalRecord.setMedicationDetails(medicalRecord.getMedicationDetails().toString());
             createMedicalRecord.setDiseaseProgression(medicalRecord.getDiseaseProgression());
 
             outputFile = pdfService.generatePdf(createMedicalRecord, medicalRecord.getImages());

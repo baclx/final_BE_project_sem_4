@@ -10,6 +10,7 @@ import com.example.spring_jwt.service.PdfService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -86,7 +87,8 @@ public class PdfServiceImpl implements PdfService {
         PdfPTable testResultsTable = createTestResultsTable(normalFont, createMedicalRecord, boldFont);
         document.add(testResultsTable);
 
-        String medicalDetailsString = createMedicalRecord.getMedicationDetails();
+        Gson gson = new Gson();
+        String medicalDetailsString = gson.toJson(createMedicalRecord.getMedicationDetails());
         document.add(new Paragraph("100. Medical Details:", boldFont));
         PdfPTable medicalDetailsTable = createMedicalDetailsTable(normalFont, medicalDetailsString);
         document.add(medicalDetailsTable);
