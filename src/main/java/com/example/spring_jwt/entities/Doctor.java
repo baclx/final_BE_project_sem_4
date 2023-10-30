@@ -22,6 +22,9 @@ public class Doctor {
     @JsonBackReference
     private User user;
 
+    private String workExperience;
+    private String graduateAt;
+
     @ManyToOne
     @JoinColumn(name = "spec_id")
     @JsonBackReference

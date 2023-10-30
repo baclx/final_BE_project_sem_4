@@ -11,4 +11,6 @@ public class DoctorDetail {
     private int age;
     private String specName;
     private String phoneNumber;
+    private String workExperience;
+    private String graduateAt;
 }

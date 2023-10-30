@@ -8,7 +8,11 @@ import java.util.List;
 public interface AppointmentService {
     Appointment createOrUpdateAppointment(Appointment requestBody);
 
+    Appointment saveAppointment(Appointment appointment);
+
     List<Appointment> getAppointmentsByDate(LocalDate date);
 
     List<Appointment> getAppointmentsByUserId(Integer userId);
+
+    Appointment getById(Integer id);
 }

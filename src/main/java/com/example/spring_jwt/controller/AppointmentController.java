@@ -49,13 +49,36 @@ public class AppointmentController {
         return "Get appointment failed";
     }
 
+
+    @PostMapping("/update/{id}")
+    public String updateAppointment(@PathVariable(name = "id") Integer id, @RequestBody CreateAppointment requestBody) {
+        Appointment appointment = appointmentService.getById(id);
+        try {
+            Doctor doctor = doctorService.getDocTorById(requestBody.getDoctorId());
+            Patient patient = patientService.getPatientByUserId(requestBody.getPatientId());
+            appointment.setAppointmentTime(requestBody.getAppointmentTime());
+            appointment.setDoctor(doctor);
+            appointment.setPatient(patient);
+            appointment.setPhoneNumber(requestBody.getPhoneNumber());
+            //appointment.setPatientName(requestBody.getPatientName());
+            appointment.setPurpose(requestBody.getPurpose());
+            if (appointmentService.saveAppointment(appointment) == null) {
+                return "Get appointment failed, appointment is full slot today";
+            }
+            return "Update appointment success!";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Get appointment failed";
+    }
+
     @GetMapping("/getByUserId/{userId}")
     public List<AppointmentDetail> getAppointmentsByUserId(@PathVariable("userId") Integer userId) {
         List<Appointment> appointments = new ArrayList<>();
         List<AppointmentDetail> appointmentDetails = new ArrayList<>();
         try {
             appointments = appointmentService.getAppointmentsByUserId(userId);
-            for(Appointment appointment : appointments){
+            for (Appointment appointment : appointments) {
                 AppointmentDetail appointmentDetail = new AppointmentDetail();
                 appointmentDetail.setAppointment(appointment);
                 appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());

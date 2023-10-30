@@ -66,14 +66,15 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/user/updateUser/**").hasAnyRole("ROLE_ADMIN")
-                .antMatchers("/admin/updateUserToDoctor").hasAnyRole("ROLE_ADMIN")
-                .antMatchers("/api/specialization/create").hasAnyRole("ROLE_ADMIN")
-                .antMatchers("/api/medicalRecord/create").hasAnyRole("ROLE_DOCTOR")
-                .antMatchers("/**", "/api/**").permitAll()
+                .anyRequest().permitAll()
+//                .antMatchers("/user/updateUser/**").hasAnyRole("ROLE_ADMIN")
+                //.antMatchers("/admin/updateUserToDoctor").hasAnyRole("ROLE_ADMIN")
+               // .antMatchers("/api/specialization/create").hasAnyRole("ROLE_ADMIN")
+                //.antMatchers("/api/medicalRecord/create").hasAnyRole("ROLE_DOCTOR")
+                //.antMatchers("/**", "/api/**","/admin/**").permitAll()
 //                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());

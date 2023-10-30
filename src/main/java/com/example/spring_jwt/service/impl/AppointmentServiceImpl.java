@@ -38,6 +38,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public Appointment saveAppointment(Appointment appointment){
+        try {
+            appointmentRepository.save(appointment);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return appointment;
+    }
+
+    @Override
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
         List<Appointment> appointments = new ArrayList<>();
         try {
@@ -58,5 +68,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             e.printStackTrace();
         }
         return appointments;
+    }
+
+    @Override
+    public Appointment getById(Integer id) {
+        try {
+            return appointmentRepository.getById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -8,4 +8,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class UpdateUserToDoctorReq {
     private Integer userId;
     private Integer specId;
+    private String workExperience;
+    private String graduateAt;
 }

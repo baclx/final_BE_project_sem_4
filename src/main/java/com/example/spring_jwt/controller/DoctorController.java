@@ -112,6 +112,8 @@ public class DoctorController {
                     doctorDetail.setImage(doctor.getUser().getImage());
                     doctorDetail.setGender(doctor.getUser().getGender());
                     doctorDetail.setId(doctor.getId());
+                    doctorDetail.setWorkExperience(doctor.getWorkExperience() != null ? doctor.getWorkExperience() : "");
+                    doctorDetail.setGraduateAt(doctor.getGraduateAt() != null ? doctor.getGraduateAt() : "");
                     doctorDetails.add(doctorDetail);
                 }
             }

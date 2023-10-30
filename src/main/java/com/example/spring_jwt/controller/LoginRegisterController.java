@@ -53,8 +53,15 @@ public class LoginRegisterController {
             String jwt = jwtService.generateTokenLogin(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User currentUser = userService.findByEmail(user.getEmail());
+            String roleResponse = "ROLE_USER";
+            Set<Role> roles = currentUser.getRoles();
+            if (roles.contains(roleService.findByName("ROLE_ADMIN"))){
+                roleResponse = "ROLE_ADMIN";
+            }else if(roles.contains(roleService.findByName("ROLE_DOCTOR"))){
+                roleResponse = "ROLE_DOCTOR";
+            }
 
-            return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName()));
+            return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName(), roleResponse));
         } catch (Exception e) {
             System.out.println(e);
         }
