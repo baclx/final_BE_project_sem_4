@@ -66,9 +66,9 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/**", "/api/**").permitAll()
-                .antMatchers("/user/updateUser/{id}").hasAnyRole("ROLE_ADMIN")
+                .antMatchers("/user/updateUser/**").hasAnyRole("ROLE_ADMIN")
                 .antMatchers("/api/medicalRecord/create").hasAnyRole("ROLE_DOCTOR")
+                .antMatchers("/**", "/api/**").permitAll()
 //                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 //                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     @PostMapping("/updateUserToDoctor")
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<String> updateUserToDoctor(@RequestBody UpdateUserToDoctorReq updateUser){
         try {
             User user = userService.getUserById(updateUser.getUserId());
