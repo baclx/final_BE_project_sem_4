@@ -73,7 +73,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment getById(Integer id) {
         try {
-            return appointmentRepository.getById(id);
+            return appointmentRepository.findById(id).get();
         }catch (Exception e){
             e.printStackTrace();
         }

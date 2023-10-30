@@ -9,6 +9,7 @@ import com.example.spring_jwt.service.AppointmentService;
 import com.example.spring_jwt.service.DoctorService;
 import com.example.spring_jwt.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -89,6 +90,22 @@ public class AppointmentController {
             e.printStackTrace();
         }
         return appointmentDetails;
+    }
+
+    @GetMapping("/getByAppointmentId/{id}")
+    public ResponseEntity<AppointmentDetail> getById(@PathVariable("id") Integer id){
+        Appointment appointment = new Appointment();
+        AppointmentDetail appointmentDetail = new AppointmentDetail();
+        try {
+            appointment = appointmentService.getById(id);
+            appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+            appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
+            appointmentDetail.setAppointment(appointment);
+            return ResponseEntity.ok(appointmentDetail);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return (ResponseEntity<AppointmentDetail>) ResponseEntity.notFound();
     }
 
 }
