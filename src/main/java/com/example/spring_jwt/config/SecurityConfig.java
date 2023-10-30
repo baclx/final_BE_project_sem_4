@@ -67,6 +67,8 @@ public class SecurityConfig {
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/user/updateUser/**").hasAnyRole("ROLE_ADMIN")
+                .antMatchers("/admin/updateUserToDoctor").hasAnyRole("ROLE_ADMIN")
+                .antMatchers("/api/specialization/create").hasAnyRole("ROLE_ADMIN")
                 .antMatchers("/api/medicalRecord/create").hasAnyRole("ROLE_DOCTOR")
                 .antMatchers("/**", "/api/**").permitAll()
 //                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
