@@ -82,6 +82,7 @@ public class UserController {
                 return ResponseEntity.notFound().build();
             }
             //oldUser.setEmail(userUpdate.getEmail() != null ? userUpdate.getEmail() : "");
+            oldUser.setEmail(oldUser.getEmail());
             oldUser.setImage(userUpdate.getImage() != null ? userUpdate.getImage() : "");
             oldUser.setFullName(userUpdate.getFullName() != null ? userUpdate.getFullName() : "");
             oldUser.setGender(userUpdate.getGender() != null ? userUpdate.getGender() : "");
