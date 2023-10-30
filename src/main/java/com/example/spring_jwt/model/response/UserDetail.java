@@ -12,7 +12,7 @@ public class UserDetail {
     private Integer id;
     private String fullName;
     private String email;
-    private List<String> roleNames;
+    private String roleNames;
     private Integer age;
 
     private String image;

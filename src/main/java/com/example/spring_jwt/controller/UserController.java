@@ -120,8 +120,14 @@ public class UserController {
         for (Role role : user.getRoles()) {
             roleNames.add(role.getName());
         }
+        String roleName = "ROLE_USER";
         userDetail.setId(user.getId());
-        userDetail.setRoleNames(roleNames);
+        if(roleNames.contains("ROLE_ADMIN")){
+            roleName = "ROLE_ADMIN";
+        }else if(roleNames.contains("ROLE_DOCTOR")){
+            roleName = "ROLE_DOCTOR";
+        }
+        userDetail.setRoleNames(roleName);
         userDetail.setEmail(user.getEmail());
         userDetail.setFullName(user.getFullName());
         userDetail.setImage(user.getImage() != null ? user.getImage() : "");
