@@ -110,7 +110,6 @@ public class UserController {
     }
 
     private static void mappingUser(User user, UpdateUserReq userDetail) {
-        user.setEmail(userDetail.getEmail());
         user.setImage(userDetail.getImage());
         user.setGender(userDetail.getGender());
     }
