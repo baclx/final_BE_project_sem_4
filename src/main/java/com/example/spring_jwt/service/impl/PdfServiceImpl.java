@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +58,9 @@ public class PdfServiceImpl implements PdfService {
         title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
 
-        Paragraph date = new Paragraph("Date: 8/2/2023\n(DD/MM/YYYY)", normalFont);
+        LocalDate today = LocalDate.now();
+        String todayString = String.valueOf(today);
+        Paragraph date = new Paragraph("Date: " + todayString + "\n(DD/MM/YYYY)", normalFont);
         date.setAlignment(Element.ALIGN_CENTER);
         document.add(date);
 
@@ -69,44 +72,44 @@ public class PdfServiceImpl implements PdfService {
         PdfPTable addressTable = createTable(normalFont, "2. Address:", patient.getAddress(), boldFont);
         document.add(addressTable);
 
-        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber() != null? patient.getPhoneNumber():"", boldFont);
+        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "", boldFont);
         document.add(phoneTable);
 
-        PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:", patient.getDateOfBirth()!=null? patient.getDateOfBirth().toString() :null, boldFont);
+        PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:", patient.getDateOfBirth() != null ? patient.getDateOfBirth().toString() : null, boldFont);
         document.add(birthDayTable);
 
         document.add(new Paragraph("5. Sex: " + getCheckmarkSymbol() + " Male   " + getCheckmarkSymbol() + " Female", boldFont));
 
-        document.add(new Paragraph("5.5. Images:", boldFont));
+        document.add(new Paragraph("6. Images:", boldFont));
         PdfPTable imageTable = imageTable(imageString);
         document.add(imageTable);
 
 
         //String testResultJson = createMedicalRecord.getTestResult();
-        document.add(new Paragraph("6. Test results:", boldFont));
+        document.add(new Paragraph("7. Test results:", boldFont));
         PdfPTable testResultsTable = createTestResultsTable(normalFont, createMedicalRecord, boldFont);
         document.add(testResultsTable);
 
         Gson gson = new Gson();
         String medicalDetailsString = gson.toJson(createMedicalRecord.getMedicationDetails());
-        document.add(new Paragraph("100. Medical Details:", boldFont));
+        document.add(new Paragraph("8. Medical Details:", boldFont));
         PdfPTable medicalDetailsTable = createMedicalDetailsTable(normalFont, medicalDetailsString);
         document.add(medicalDetailsTable);
 
 
-        document.add(new Paragraph("7. Current condition:", boldFont));
+        document.add(new Paragraph("9. Current condition:", boldFont));
         PdfPTable currentConditionTable = createCommonListTable(normalFont, createMedicalRecord.getCurrentCondition());
         document.add(currentConditionTable);
 
 
-        document.add(new Paragraph("8. Disease progression:", boldFont));
+        document.add(new Paragraph("10. Disease progression:", boldFont));
         PdfPTable diseaseProgressionTable = createCommonListTable(normalFont, createMedicalRecord.getDiseaseProgression());
         document.add(diseaseProgressionTable);
 
         PdfPTable doctorNameTable = createTable(normalFont, "9. Name of Doctor:", createMedicalRecord.getDoctorName(), boldFont);
         document.add(doctorNameTable);
 
-        document.add(new Paragraph("10. Notes from doctor:", boldFont));
+        document.add(new Paragraph("11. Notes from doctor:", boldFont));
         document.add(new Paragraph(createMedicalRecord.getNoteFromDoctor(), normalFont));
 
         document.close();
@@ -152,10 +155,10 @@ public class PdfServiceImpl implements PdfService {
     private static PdfPTable imageTable(String listImageUrls) throws IOException, BadElementException {
         String images = listImageUrls;
 
-        images = images.replace("[", "").replace("]", "").replace("\"","");
+        images = images.replace("[", "").replace("]", "").replace("\"", "");
         ArrayList<String> imageUrlList = new ArrayList<>();
         imageUrlList.add(images);
-        if(images.contains(",")){
+        if (images.contains(",")) {
             String[] imageArray = images.split(",");
             imageUrlList = new ArrayList<>(Arrays.asList(imageArray));
         }
@@ -253,8 +256,6 @@ public class PdfServiceImpl implements PdfService {
         for (String result : bioChemicalTestResult) {
             addCell(table, result, font);
         }
-
-
 
 
         PdfPCell cell2 = new PdfPCell(new Phrase("Image analysation", boldFont));
