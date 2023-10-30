@@ -43,6 +43,7 @@ public class AdminController {
     @PostMapping("/updateUserToDoctor")
     //@Secured("ROLE_ADMIN")
     public ResponseEntity<String> updateUserToDoctor(@RequestBody UpdateUserToDoctorReq updateUser){
+        String response = "Update failed!!";
         try {
             User user = userService.getUserById(updateUser.getUserId());
             Set<Role> roles = user.getRoles();
@@ -59,8 +60,9 @@ public class AdminController {
             }
             return ResponseEntity.ok("Update User to doctor successfully!!");
         }catch (Exception e){
+            response = e.getMessage();
             e.printStackTrace();
         }
-        return ResponseEntity.ok("Update failed!!");
+        return ResponseEntity.ok(response);
     }
 }
