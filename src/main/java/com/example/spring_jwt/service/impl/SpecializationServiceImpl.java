@@ -6,6 +6,7 @@ import com.example.spring_jwt.repository.SpecializationRepository;
 import com.example.spring_jwt.service.SpecializationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,5 +40,14 @@ public class SpecializationServiceImpl implements SpecializationService {
     @Override
     public void deleteSpecialization(Integer id) {
         specializationRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean isExitSpec(String specName) {
+        List<Specialization> specializations = specializationRepository.getAllBySpecName(specName);
+        if(CollectionUtils.isEmpty(specializations)){
+            return false;
+        }
+        return true;
     }
 }

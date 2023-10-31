@@ -5,7 +5,8 @@ import com.example.spring_jwt.model.request.CreateSpec;
 
 import java.util.List;
 
-public interface SpecializationService {
+public interface
+SpecializationService {
     List<Specialization> getAllSpecialization();
 
     void saveSpecialization(Specialization specialization);
@@ -13,5 +14,7 @@ public interface SpecializationService {
     Specialization getSpecializationById(Integer id);
 
     void deleteSpecialization(Integer id);
+
+    boolean isExitSpec(String specName);
 
 }
