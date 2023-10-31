@@ -101,6 +101,7 @@ public class AppointmentController {
             appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
             appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
             appointmentDetail.setAppointment(appointment);
+            appointmentDetail.setEmail(appointment.getPatient().getUser().getEmail());
             return ResponseEntity.ok(appointmentDetail);
         }catch (Exception e){
             e.printStackTrace();

@@ -62,9 +62,20 @@ public class AdminController {
             }
             return ResponseEntity.ok("Update User to doctor successfully!!");
         }catch (Exception e){
-            String line = Integer.toString(e.getStackTrace()[0].getLineNumber());
-            response = e.toString() + " at: " + line;
+            //String line = Integer.toString(e.getStackTrace()[0].getLineNumber());
+            //response = e.toString() + " at: " + line;
             e.printStackTrace();
+            for (StackTraceElement element : e.getStackTrace()) {
+                String className = element.getClassName();
+                if (className.equals("AdminController")) {
+
+                    String fileName = element.getFileName();
+                    String methodName = element.getMethodName();
+                    int lineNumber = element.getLineNumber();
+                    response = "class: "+className+ ", tệp: "+fileName+", Method name: "+methodName+" line number: "+String.valueOf(lineNumber);
+
+                }
+            }
         }
         return ResponseEntity.ok(response);
     }

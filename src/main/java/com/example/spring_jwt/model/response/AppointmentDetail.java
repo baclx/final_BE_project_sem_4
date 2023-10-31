@@ -10,4 +10,5 @@ public class AppointmentDetail {
     private String doctorName;
     private String patientName;
     private Appointment appointment;
+    private String email;
 }
