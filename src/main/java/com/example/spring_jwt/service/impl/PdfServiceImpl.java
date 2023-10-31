@@ -18,11 +18,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +37,6 @@ public class PdfServiceImpl implements PdfService {
     PatientService patientService;
 
     public String generatePdf(CreateMedicalRecord createMedicalRecord, String imageString) throws IOException, DocumentException {
-        //Patient patient = patientService.getPatientByEmail(createMedicalRecord.getPatientEmail());
         Patient patient = patientService.getPatientById(createMedicalRecord.getPatientId());
         String outputFile = "src/main/resources/medical_record.pdf";
 
@@ -54,62 +55,67 @@ public class PdfServiceImpl implements PdfService {
         table.setWidthPercentage(100);
         table.setSpacingAfter(10f);
 
-        Paragraph title = new Paragraph("MEDICAL REPORT", titleFont);
+        Paragraph title = new Paragraph("HỒ SƠ BỆNH ÁN", titleFont);
         title.setAlignment(Element.ALIGN_CENTER);
         document.add(title);
 
         LocalDate today = LocalDate.now();
-        String todayString = String.valueOf(today);
-        Paragraph date = new Paragraph("Date: " + todayString + "\n(DD/MM/YYYY)", normalFont);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = today.format(formatter);
+        Paragraph date = new Paragraph("Ngày: " + formattedDate + "\n(DD - MM - YYYY)", normalFont);
         date.setAlignment(Element.ALIGN_CENTER);
         document.add(date);
 
         document.add(Chunk.NEWLINE);
 
-        PdfPTable nameTable = createTable(normalFont, "1. Name:", patient.getUser().getFullName(), boldFont);
+        PdfPTable nameTable = createTable(normalFont, "1. Họ tên:", patient.getUser().getFullName(), boldFont);
         document.add(nameTable);
 
-        PdfPTable addressTable = createTable(normalFont, "2. Address:", patient.getAddress(), boldFont);
+        PdfPTable addressTable = createTable(normalFont, "2. Địa chỉ:", patient.getAddress(), boldFont);
         document.add(addressTable);
 
-        PdfPTable phoneTable = createTable(normalFont, "3. Phone number:", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "", boldFont);
+        PdfPTable phoneTable = createTable(normalFont, "3. Số điện thoại:", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "", boldFont);
         document.add(phoneTable);
 
-        PdfPTable birthDayTable = createTable(normalFont, "4. Birthday:", patient.getDateOfBirth() != null ? patient.getDateOfBirth().toString() : null, boldFont);
+        PdfPTable birthDayTable = createTable(normalFont, "4. Ngày sinh:", patient.getDateOfBirth() != null ? patient.getDateOfBirth().toString() : null, boldFont);
         document.add(birthDayTable);
 
-        document.add(new Paragraph("5. Sex: " + getCheckmarkSymbol() + " Male   " + getCheckmarkSymbol() + " Female", boldFont));
+        String gender = "Nam";
+        if(gender.equals(patient.getUser().getGender())){
+            gender = "Nữ";
+        }
+        document.add(new Paragraph("5. Giới tính: " + gender, boldFont));
 
-        document.add(new Paragraph("6. Images:", boldFont));
+        document.add(new Paragraph("6. Hình ảnh xét nghiệm:", boldFont));
         PdfPTable imageTable = imageTable(imageString);
         document.add(imageTable);
 
 
         //String testResultJson = createMedicalRecord.getTestResult();
-        document.add(new Paragraph("7. Test results:", boldFont));
+        document.add(new Paragraph("7. Kết quả xét nghiệm:", boldFont));
         PdfPTable testResultsTable = createTestResultsTable(normalFont, createMedicalRecord, boldFont);
         document.add(testResultsTable);
 
-        Gson gson = new Gson();
-        String medicalDetailsString = gson.toJson(createMedicalRecord.getMedicationDetails());
-        document.add(new Paragraph("8. Medical Details:", boldFont));
-        PdfPTable medicalDetailsTable = createMedicalDetailsTable(normalFont, medicalDetailsString);
-        document.add(medicalDetailsTable);
 
-
-        document.add(new Paragraph("9. Current condition:", boldFont));
+        document.add(new Paragraph("9. Tình trạng hiện tại:", boldFont));
         PdfPTable currentConditionTable = createCommonListTable(normalFont, createMedicalRecord.getCurrentCondition());
         document.add(currentConditionTable);
 
 
-        document.add(new Paragraph("10. Disease progression:", boldFont));
+        document.add(new Paragraph("10. Tiến triển của bệnh: ", boldFont));
         PdfPTable diseaseProgressionTable = createCommonListTable(normalFont, createMedicalRecord.getDiseaseProgression());
         document.add(diseaseProgressionTable);
 
-        PdfPTable doctorNameTable = createTable(normalFont, "9. Name of Doctor:", createMedicalRecord.getDoctorName(), boldFont);
+        Gson gson = new Gson();
+        String medicalDetailsString = gson.toJson(createMedicalRecord.getMedicationDetails());
+        document.add(new Paragraph("8. Kê đơn thuốc:", boldFont));
+        PdfPTable medicalDetailsTable = createMedicalDetailsTable(normalFont, medicalDetailsString);
+        document.add(medicalDetailsTable);
+
+        PdfPTable doctorNameTable = createTable(normalFont, "9. Tên bác sĩ:", createMedicalRecord.getDoctorName(), boldFont);
         document.add(doctorNameTable);
 
-        document.add(new Paragraph("11. Notes from doctor:", boldFont));
+        document.add(new Paragraph("11. Ghi chú từ bác sĩ:", boldFont));
         document.add(new Paragraph(createMedicalRecord.getNoteFromDoctor(), normalFont));
 
         document.close();
@@ -214,9 +220,9 @@ public class PdfServiceImpl implements PdfService {
 
 
         for (MedicationDetail detail : medicationDetailList) {
-            addCell2Collumn(table, "Medicine Name:", detail.getMedicineName(), font, font);
-            addCell2Collumn(table, "Frequency:", detail.getFrequency(), font, font);
-            addCell2Collumn(table, "Duration:", detail.getDuration(), font, font);
+            addCell2Collumn(table, "Tên thuốc:", detail.getMedicineName(), font, font);
+            addCell2Collumn(table, "Tần suất sử dụng:", detail.getFrequency(), font, font);
+            addCell2Collumn(table, "Thời gian sử dụng:", detail.getDuration(), font, font);
             addSeparator(table);
         }
         return table;
