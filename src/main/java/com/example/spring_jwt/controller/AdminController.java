@@ -62,7 +62,7 @@ public class AdminController {
             }
             return ResponseEntity.ok("Update User to doctor successfully!!");
         }catch (Exception e){
-            response = e.getMessage();
+            response = e.toString();
             e.printStackTrace();
         }
         return ResponseEntity.ok(response);
