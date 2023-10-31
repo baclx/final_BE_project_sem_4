@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -64,5 +65,10 @@ public class AdminController {
             e.printStackTrace();
         }
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getAllRole")
+    public List<Role> getAllRole(){
+        return roleService.getAll();
     }
 }
