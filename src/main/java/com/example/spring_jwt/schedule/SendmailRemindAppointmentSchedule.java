@@ -36,6 +36,8 @@ public class SendmailRemindAppointmentSchedule {
                     String to = appointment.getPatient().getUser().getEmail();
                     String text = sendMailProperties.getGetAppointmentText() + appointment.getDoctor().getUser().getFullName() + " at: " + appointment.getAppointmentTime();
                     emailService.sendEmail(to, subject, text, null);
+                    appointment.setIsCheck(1);
+                    appointmentService.saveAppointment(appointment);
                 }
                 System.out.println("Send email success!!!");
             }

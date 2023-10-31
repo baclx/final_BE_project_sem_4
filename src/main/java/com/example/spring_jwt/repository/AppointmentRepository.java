@@ -22,7 +22,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     List<Appointment> getAppointmentByAppointmentTime(@Param("date") LocalDateTime date);
 
     //@Query(value = "SELECT * FROM Appointment a WHERE CAST(appointment_time AS DATE) = DATE(NOW())", nativeQuery = true)
-    @Query("SELECT a FROM Appointment a WHERE FUNCTION('DATE', a.appointmentTime) = FUNCTION('DATE', :todayDate)")
+    @Query("SELECT a FROM Appointment a WHERE FUNCTION('DATE', a.appointmentTime) = FUNCTION('DATE', :todayDate) AND a.isCheck = 0")
     List<Appointment> findAppointmentsForToday(LocalDate todayDate);
 
 
