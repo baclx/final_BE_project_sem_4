@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,11 +81,13 @@ public class AppointmentController {
         try {
             appointments = appointmentService.getAppointmentsByUserId(userId);
             for (Appointment appointment : appointments) {
-                AppointmentDetail appointmentDetail = new AppointmentDetail();
-                appointmentDetail.setAppointment(appointment);
-                appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
-                appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
-                appointmentDetails.add(appointmentDetail);
+                if(appointment.getAppointmentTime().isAfter(LocalDateTime.now())){
+                    AppointmentDetail appointmentDetail = new AppointmentDetail();
+                    appointmentDetail.setAppointment(appointment);
+                    appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+                    appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
+                    appointmentDetails.add(appointmentDetail);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

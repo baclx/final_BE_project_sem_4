@@ -51,7 +51,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
         List<Appointment> appointments = new ArrayList<>();
         try {
-            appointments = appointmentRepository.findAppointmentsForToday();
+            appointments = appointmentRepository.findAppointmentsForToday(date);
         } catch (Exception e) {
             e.printStackTrace();
         }
