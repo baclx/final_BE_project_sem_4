@@ -67,10 +67,10 @@ public class AdminController {
             e.printStackTrace();
             for (StackTraceElement element : e.getStackTrace()) {
                 String className = element.getClassName();
-                if (className.equals("AdminController")) {
-
+                String methodName = element.getMethodName();
+                if (methodName.equals("updateUserToDoctor")) { //AdminController
                     String fileName = element.getFileName();
-                    String methodName = element.getMethodName();
+
                     int lineNumber = element.getLineNumber();
                     response = "class: "+className+ ", tệp: "+fileName+", Method name: "+methodName+" line number: "+String.valueOf(lineNumber);
 
