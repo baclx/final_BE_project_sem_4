@@ -243,7 +243,7 @@ public class PdfServiceImpl implements PdfService {
         table.setSpacingAfter(10f);
         table.setSpacingBefore(10f);
 
-        PdfPCell cell1 = new PdfPCell(new Phrase("Biochemical tests", boldFont));
+        PdfPCell cell1 = new PdfPCell(new Phrase("Xét nghiệm hóa sinh: ", boldFont));
         cell1.setPadding(5);
         cell1.setBorder(Rectangle.NO_BORDER);
         table.addCell(cell1);
@@ -264,7 +264,7 @@ public class PdfServiceImpl implements PdfService {
         }
 
 
-        PdfPCell cell2 = new PdfPCell(new Phrase("Image analysation", boldFont));
+        PdfPCell cell2 = new PdfPCell(new Phrase("Chẩn đoán hình ảnh: ", boldFont));
         cell2.setPadding(5);
         cell2.setBorder(Rectangle.NO_BORDER);
 
