@@ -50,6 +50,7 @@ public class AdminController {
             Set<Role> roles = user.getRoles();
             if(Collections.isEmpty(roles) || !roles.contains(roleService.findByName("ROLE_DOCTOR"))){
                 roles.add(roleService.findByName("ROLE_DOCTOR"));
+                user.setRoles(roles);
                 Specialization specialization = specializationService.getSpecializationById(updateUser.getSpecId());
                 Doctor doctor = new Doctor();
                 doctor.setUser(user);
