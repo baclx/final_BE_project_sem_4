@@ -81,12 +81,42 @@ public class AppointmentController {
         try {
             appointments = appointmentService.getAppointmentsByUserId(userId);
             for (Appointment appointment : appointments) {
-                if(appointment.getAppointmentTime().isAfter(LocalDateTime.now())){
-                    AppointmentDetail appointmentDetail = new AppointmentDetail();
-                    appointmentDetail.setAppointment(appointment);
-                    appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
-                    appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
-                    appointmentDetails.add(appointmentDetail);
+
+                Integer userIdByPatient = appointment.getPatient().getUser().getId();
+                if (userIdByPatient.equals(userId)) {
+
+                    if (appointment.getAppointmentTime().isAfter(LocalDateTime.now())) {
+                        AppointmentDetail appointmentDetail = new AppointmentDetail();
+                        appointmentDetail.setAppointment(appointment);
+                        appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+                        appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
+                        appointmentDetails.add(appointmentDetail);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appointmentDetails;
+    }
+
+    @GetMapping("/getByUserId/doctor/{userId}")
+    public List<AppointmentDetail> getAppointmentsFromDoctorByUserId(@PathVariable("userId") Integer userId) {
+        List<Appointment> appointments = new ArrayList<>();
+        List<AppointmentDetail> appointmentDetails = new ArrayList<>();
+        try {
+            appointments = appointmentService.getAppointmentsByUserId(userId);
+            for (Appointment appointment : appointments) {
+                Integer userIdByDoctor = appointment.getDoctor().getUser().getId();
+                if (userIdByDoctor.equals(userId)) {
+                    if (appointment.getAppointmentTime().isAfter(LocalDateTime.now())) {
+                        AppointmentDetail appointmentDetail = new AppointmentDetail();
+                        appointmentDetail.setAppointment(appointment);
+                        appointmentDetail.setPatientName(appointment.getPatient().getUser().getFullName());
+                        appointmentDetail.setDoctorName(appointment.getDoctor().getUser().getFullName());
+                        appointmentDetails.add(appointmentDetail);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -96,7 +126,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/getByAppointmentId/{id}")
-    public ResponseEntity<AppointmentDetail> getById(@PathVariable("id") Integer id){
+    public ResponseEntity<AppointmentDetail> getById(@PathVariable("id") Integer id) {
         Appointment appointment = new Appointment();
         AppointmentDetail appointmentDetail = new AppointmentDetail();
         try {
@@ -106,7 +136,7 @@ public class AppointmentController {
             appointmentDetail.setAppointment(appointment);
             appointmentDetail.setEmail(appointment.getPatient().getUser().getEmail());
             return ResponseEntity.ok(appointmentDetail);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return (ResponseEntity<AppointmentDetail>) ResponseEntity.notFound();

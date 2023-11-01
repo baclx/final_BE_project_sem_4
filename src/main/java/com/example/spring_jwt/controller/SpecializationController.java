@@ -38,7 +38,7 @@ public class SpecializationController {
     public String createSpec(@RequestBody CreateSpec requestBody) {
         Specialization specialization = new Specialization();
         try {
-            if(specializationService.isExitSpec(requestBody.getSpecName())){
+            if(!specializationService.isExitSpec(requestBody.getSpecName())){
                 specialization.setSpecName(requestBody.getSpecName());
                 specializationService.saveSpecialization(specialization);
                 return "Create success";
