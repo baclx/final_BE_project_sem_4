@@ -28,7 +28,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
 
 
-    @Query("SELECT a FROM Appointment a WHERE a.doctor.user.id = :userId OR a.patient.user.id = :userId ORDER BY a.appointmentTime DESC")
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.user.id = :userId OR a.patient.user.id = :userId ORDER BY a.appointmentTime")
     List<Appointment> getAppointmentByUserId(@Param("userId") Integer userId);
 
     List<Appointment> getAppointmentByDoctor(Doctor doctor);
