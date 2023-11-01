@@ -133,7 +133,7 @@ public class UserController {
         userDetail.setImage(user.getImage() != null ? user.getImage() : "");
         userDetail.setGender(user.getGender() != null ? user.getGender() : "");
         if (user.getPatient() != null) {
-            userDetail.setAge(user.getPatient().getAge());
+            userDetail.setAge(user.getPatient().getAge() != null ? user.getPatient().getAge():0);
             userDetail.setAddress(user.getPatient().getAddress() != null ? user.getPatient().getAddress() : "");
             userDetail.setAge(user.getPatient().getAge() != null ? user.getPatient().getAge() : null);
             userDetail.setWeight(user.getPatient().getWeight() != null ? user.getPatient().getWeight() : "");
