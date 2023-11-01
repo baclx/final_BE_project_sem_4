@@ -106,6 +106,7 @@ public class DoctorController {
                     DoctorDetail doctorDetail = new DoctorDetail();
                     doctorDetail.setFullName(doctor.getUser().getFullName());
                     doctorDetail.setSpecName(doctor.getSpecialization().getSpecName());
+                    doctorDetail.setPhoneNumber(doctor.getUser().getPatient().getPhoneNumber());
                     if(Objects.nonNull(doctor.getUser().getPatient())){
                         doctorDetail.setAge(doctor.getUser().getPatient().getAge());
                     }
